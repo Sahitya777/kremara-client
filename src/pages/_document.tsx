@@ -5,6 +5,7 @@ export default function Document() {
     <Html lang="en">
       <Head />
       <body>
+      <meta name="google-site-verification" content="4punvqdlj0LUcABJA9RUco5kRCryGgUh8I0hdIxRwoI" />
         <Main />
         <NextScript />
       </body>

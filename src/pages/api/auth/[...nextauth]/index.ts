@@ -19,7 +19,7 @@ export default NextAuth({
     TwitterProvider({
       clientId: process.env.NEXT_PUBLIC_TWITTER_CLIENT_ID as string,
       clientSecret: process.env.NEXT_PUBLIC_TWITTER_CLIENT_SECRET as string,
-      version:'2.0'
+      // version:'2.0'
     }),
   ],
   secret:'LlKq6ZtYbr+hTC073mAmAh9/h2HwMfsFo4hrfCx6gts=',
