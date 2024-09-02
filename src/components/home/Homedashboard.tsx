@@ -1,5 +1,6 @@
 import { Project } from '@/interfaces/interface'
 import { Box, Button, Text } from '@chakra-ui/react'
+import { useSession } from 'next-auth/react'
 import { useRouter } from 'next/router'
 import React, { useState } from 'react'
 
@@ -17,6 +18,7 @@ const Homedashboard = () => {
     },
   ]
   const router=useRouter()
+  const { data: session } = useSession();
   return (
     <Box padding="4rem">
         <Box bg="grey" width="100%" padding="1rem" borderRadius="6px">
@@ -44,7 +46,7 @@ const Homedashboard = () => {
                     </Box>
                     <Box>
                       <Button cursor="pointer" onClick={()=>{
-                        router.push(`/project?id=${project?.name}`)
+                        router.push(`/project/${project?.name}`)
                       }}>
                         Click for project
                       </Button>

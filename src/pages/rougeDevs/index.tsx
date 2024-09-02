@@ -2,13 +2,13 @@ import Navbar from '@/components/Navbar'
 import { Box } from '@chakra-ui/react'
 import React from 'react'
 
-const index = () => {
+const Index = () => {
   return (
     <Box>
         <Navbar/>
-        Projects
+        Super Admin
     </Box>
   )
 }
 
-export default index
+export default Index
