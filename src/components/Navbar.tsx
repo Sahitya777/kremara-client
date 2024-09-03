@@ -9,6 +9,7 @@ import Image from "next/image";
 const Navbar = () => {
   const router = useRouter();
   const { data: session } = useSession();
+  console.log(session,'ss')
   return (
     <Box
       display="flex"
