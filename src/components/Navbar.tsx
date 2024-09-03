@@ -60,7 +60,7 @@ const Navbar = () => {
             gap="0.5rem"
           >
             <Image
-              src="https://avatars.githubusercontent.com/u/77379621?v=4"
+              src={session?.user?.image as string}
               alt="image"
               width={24}
               height={24}
