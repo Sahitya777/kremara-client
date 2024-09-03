@@ -22,6 +22,22 @@ export default NextAuth({
       // version:'2.0'
     }),
   ],
+  session: {
+    strategy: "jwt"
+},
+  callbacks: {
+    async jwt({ token, account, user }) {
+      token.accessToken = account?.access_token;
+      return { ...token, ...user, ...account };
+  },
+
+    async session({ session, token,user }) {
+      // Pass the access token to the client
+      //@ts-ignore
+      session.accessToken = token.accessToken;
+      return session;
+    },
+  },
   secret:'LlKq6ZtYbr+hTC073mAmAh9/h2HwMfsFo4hrfCx6gts=',
   pages: {
     signIn: "/",
