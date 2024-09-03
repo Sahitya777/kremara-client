@@ -26,17 +26,19 @@ export default NextAuth({
     strategy: "jwt"
 },
   callbacks: {
-    async jwt({ token, account, user }) {
-      token.accessToken = account?.access_token;
-      return { ...token, ...user, ...account };
-  },
-
-    async session({ session, token,user }) {
-      // Pass the access token to the client
-      //@ts-ignore
-      session.accessToken = token.accessToken;
-      return session;
+    async jwt({token, account}) {
+      if (account) {
+        token = Object.assign({}, token, { access_token: account.access_token });
+      }
+      return token
     },
+    async session({session, token}) {
+    if(session) {
+      session = Object.assign({}, session, {access_token: token.access_token})
+      console.log(session);
+      }
+    return session
+    }
   },
   secret:'LlKq6ZtYbr+hTC073mAmAh9/h2HwMfsFo4hrfCx6gts=',
   pages: {
