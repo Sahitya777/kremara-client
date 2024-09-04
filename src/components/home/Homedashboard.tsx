@@ -1,4 +1,4 @@
-import { Project } from '@/interfaces/interface'
+import { Contributor, Project } from '@/interfaces/interface'
 import { Box, Button, Text } from '@chakra-ui/react'
 import { useSession } from 'next-auth/react'
 import { useRouter } from 'next/router'
@@ -17,6 +17,7 @@ const Homedashboard = () => {
       description:'Carmine Options AMM, a platform for buying and selling European style options.'
     },
   ]
+  const [contributors, setcontributors] = useState<Contributor[]>([])
   const router=useRouter()
   const { data: session } = useSession();
   return (
