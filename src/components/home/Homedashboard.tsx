@@ -26,7 +26,7 @@ const Homedashboard = () => {
           Banner
         </Box>
         <Box display="flex" gap="1rem" mt="3rem" width="100%">
-            <Box bg="grey" width="50%" padding="1.5rem">
+            <Box bg="grey" width="50%" padding="1.5rem" borderRadius="6px">
                 <Box>
                   <Text>
                     Top trending projects
@@ -55,7 +55,7 @@ const Homedashboard = () => {
                   </Box>
                 ))}
             </Box>
-            <Box bg="grey" width="50%"  padding="1.5rem">
+            <Box bg="grey" width="50%"  padding="1.5rem" borderRadius="6px">
                 Contributors
             </Box>
         </Box>

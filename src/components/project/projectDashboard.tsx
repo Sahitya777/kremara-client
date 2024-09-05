@@ -9,7 +9,7 @@ const ProjectDashboard = () => {
   return (
     <Box display="flex" padding="32px" gap="2rem">
       <Box bg="grey" height="500px" padding="3rem">
-        Left component
+        Left dashboard
       </Box>
       <Box display="flex" flexDirection="column" gap="1rem" width="100%">
         <Box>
@@ -48,8 +48,8 @@ const ProjectDashboard = () => {
           <Box height="1px" borderBottom="1px solid black" mt="1rem"></Box>
         </Box>
       </Box>
-      <Box bg="grey" padding="3rem">
-        Hello
+      <Box bg="grey" padding="3rem" >
+        Right Dashboard
       </Box>
     </Box>
   );

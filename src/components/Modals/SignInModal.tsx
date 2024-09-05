@@ -33,7 +33,7 @@ const SignInModal = ({ buttonText, ...restProps }: any) => {
 
   return (
     <div>
-      <Button onClick={onOpen} >
+      <Button onClick={onOpen} {...restProps}>
         {buttonText}
       </Button>
       <Portal>
