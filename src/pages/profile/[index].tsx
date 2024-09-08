@@ -1,4 +1,5 @@
 import Navbar from "@/components/Navbar";
+import PublicProfile from "@/components/publicProfile/publicProfile";
 import { Box } from "@chakra-ui/react";
 import { GoogleLogin, googleLogout, useGoogleLogin } from "@react-oauth/google";
 import axios from "axios";
@@ -39,10 +40,7 @@ const Index = () => {
   return (
     <Box>
       <Navbar />
-      <Box
-      >
-        log
-      </Box>
+      <PublicProfile/>
     </Box>
   );
 };

@@ -5,7 +5,8 @@ import { mainnet, sepolia } from "@starknet-react/chains";
 import { argent, braavos, publicProvider, StarknetConfig, useInjectedConnectors, voyager } from "@starknet-react/core";
 import { SessionProvider } from "next-auth/react";
 import type { AppProps } from "next/app";
-
+import { ArgentMobileConnector } from "starknetkit/argentMobile";
+import { InjectedConnector } from 'starknetkit/injected';
 export const theme = extendTheme({
   components: {
     Tabs: {
@@ -63,6 +64,13 @@ export const theme = extendTheme({
     body: 'Inter, sans-serif',
   },
 })
+
+export const MYCONNECTORS = [
+  new InjectedConnector({ options: { id: 'braavos', name: 'Braavos' } }),
+  new InjectedConnector({ options: { id: 'argentX', name: 'Argent X' } }),
+  new ArgentMobileConnector(),
+  // new WebWalletConnector({ url: 'https://web.argent.xyz' }),
+];
 
 export default function App({ Component, pageProps }: AppProps) {
   const { connectors } = useInjectedConnectors({

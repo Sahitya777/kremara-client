@@ -6,6 +6,8 @@ export type Project={
 
 export type tiers="UNRATED" | "IRON" | "BRONZE" | "SILVER" | "GOLD" | "PLATINUM" | "DIAMOND";
 
+export type userType ="Moderator" | "Normal" | "Owner" | "RougeDevs-Core" | "RougeDevs-Support"
+
 export type Contributor={
     name:String,
     points:number,

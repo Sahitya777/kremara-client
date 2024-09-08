@@ -22,6 +22,8 @@ import {
 } from "@chakra-ui/react";
 import { useDisclosure } from "@chakra-ui/react";
 import { signIn } from "next-auth/react";
+import axios from "axios";
+import { useRouter } from "next/router";
 
 const SignInModal = ({ buttonText, ...restProps }: any) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -29,6 +31,11 @@ const SignInModal = ({ buttonText, ...restProps }: any) => {
   const [inputAmount, setinputAmount] = useState(0);
   const [sliderValue, setSliderValue] = useState(0);
   const [buttonId, setButtonId] = useState(0);
+
+  const fetchCall=async()=>{
+    const res=await axios.get('https://a4c9-103-215-237-73.ngrok-free.app/auth/login');
+  }
+  const router=useRouter();
 
 
   return (
@@ -61,13 +68,14 @@ const SignInModal = ({ buttonText, ...restProps }: any) => {
               color="black"
               textAlign="center"
             >
-              Welcome back
+              Welcome 
             </ModalHeader>
             <ModalCloseButton mt="1rem" mr="1rem" />
             <ModalBody>
                 <Box color="black" display="flex" flexDirection="column" gap="1rem" mb="1rem">
                 <Box display="flex" justifyContent="space-around" cursor="pointer" border="1px solid grey" borderRadius="6px" padding="8px" onClick={()=>{
-                  signIn('google')
+                  // signIn('google')
+                  router.push('https://1096-103-215-237-91.ngrok-free.app/auth/login')
                 }}>
                     <Text>
                       Sign in with Google
