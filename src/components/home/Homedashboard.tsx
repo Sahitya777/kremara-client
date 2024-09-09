@@ -1,5 +1,6 @@
 import { Contributor, Project } from "@/interfaces/interface";
 import {
+  Avatar,
   Box,
   Button,
   keyframes,
@@ -21,13 +22,13 @@ const Homedashboard = () => {
   const projects: Project[] = [
     {
       name: "Starkfarm",
-      logo: "",
+      logo: "https://bit.ly/dan-abramov",
       description:
         "STRKFarm is a decentralized yield aggregator built on Starknet. It aims to maximize returns for users by automatically reallocating assets across various DeFi protocols.",
     },
     {
       name: "Carmine Options",
-      logo: "",
+      logo: "https://bit.ly/ryan-florence",
       description:
         "Carmine Options AMM, a platform for buying and selling European style options.",
     },
@@ -104,7 +105,7 @@ const Homedashboard = () => {
               Click here
             </Button>
           </Box>
-          <Box
+          {!session &&<Box
             padding="2rem"
             mt="1rem"
             bg="purple.400"
@@ -133,43 +134,44 @@ const Homedashboard = () => {
               fontWeight="bold"
               size="lg"
             />
-          </Box>
+          </Box>}
           <Box
-          bg="grey"
-          mt="1rem"
-          padding="1.5rem"
-          borderRadius="6px"
-          height="400px" // Fixed height
-          display="flex"
-          flexDirection="column"
-        >
+  bg="grey"
+  mt="1rem"
+  height="350px" // Fixed height
+  padding="2rem"
+  borderRadius="6px"
+  display="flex"
+  flexDirection="column"
+>
+  <Box>
+    <Text fontSize="24px">Top trending projects</Text>
+  </Box>
+  <Box overflowY="auto" mt="1rem" flex="1">
+    {projects.map((project: Project, index: number) => (
+      <Box display="flex" justifyContent="space-between" mt="2rem" key={index}>
+        <Box display="flex" gap="1rem">
+          <Avatar src={project.logo as string} />
           <Box>
-            <Text>Top trending projects</Text>
-          </Box>
-          <Box overflowY="auto" mt="1rem">
-            {projects.map((project: Project, index: number) => (
-              <Box display="flex" justifyContent="space-between"  mt="2rem" key={index}>
-                <Box display="flex" gap="1rem">
-                  <Box>Logo</Box>
-                  <Box>
-                    <Text>{project.name}</Text>
-                    <Text>{project.description}</Text>
-                  </Box>
-                  </Box>
-                <Box>
-                  <Button
-                    cursor="pointer"
-                    onClick={() => {
-                      router.push(`/project/${project?.name}`);
-                    }}
-                  >
-                    Click for project
-                  </Button>
-                </Box>
-              </Box>
-            ))}
+            <Text>{project.name}</Text>
+            <Text>{project.description}</Text>
           </Box>
         </Box>
+        <Box>
+          <Button
+            cursor="pointer"
+            onClick={() => {
+              router.push(`/project/${project?.name}`);
+            }}
+          >
+            Click for project
+          </Button>
+        </Box>
+      </Box>
+    ))}
+  </Box>
+</Box>
+
         </Box>
         <Box width="30%">
           <Text fontSize="24px" mt="-0.5rem">

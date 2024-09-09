@@ -49,10 +49,10 @@ const ProjectDashboard = () => {
         </Box>
         <Box bg="grey" padding="2rem" borderRadius="6px">
           <Box display="flex" gap="2rem">
-            <Box height="100%">
-              Logo image
-              {/* <Image src="" alt=""/> */}
-            </Box>
+          <Avatar
+                        name="Dan Abrahmov"
+                        src="https://bit.ly/dan-abramov"
+                      />
             <Box>
               <Box>{router.query.index}</Box>
               <Box display="flex" gap="1rem">

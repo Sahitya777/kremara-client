@@ -1,5 +1,5 @@
 import { Project } from "@/interfaces/interface";
-import { Box, Button, Text } from "@chakra-ui/react";
+import { Avatar, Box, Button, Text } from "@chakra-ui/react";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
 import React, { useState } from "react";
@@ -41,10 +41,10 @@ const MarketDashboard = () => {
             router.push(`/project/${project.name}`)
           }}>
             <Box display="flex" gap="2rem">
-              <Box height="100%">
-                Logo image
-                {/* <Image src="" alt=""/> */}
-              </Box>
+            <Avatar
+                        name="Dan Abrahmov"
+                        src="https://bit.ly/dan-abramov"
+                      />
               <Box>
               <Box display="flex" gap="1rem">
                   {project?.name}

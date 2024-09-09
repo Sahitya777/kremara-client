@@ -24,8 +24,10 @@
     "react-calendar-heatmap": "^1.9.0",
     "react-dom": "^18",
     "react-tooltip": "^5.28.0",
+    "react-tsparticles": "^2.12.2",
     "starknet": "^6.11.0",
-    "starknetkit": "^1.1.9"
+    "starknetkit": "^1.1.9",
+    "tsparticles": "^3.5.0"
   },
   "devDependencies": {
     "@types/node": "^20",

@@ -21,6 +21,7 @@ import Image from "next/image";
 import { useStarknetkitConnectModal } from "starknetkit";
 import { MYCONNECTORS } from "@/pages/_app";
 import { useAccount, useConnect } from "@starknet-react/core";
+import Link from "next/link";
 
 const ProjectCreateDashboard = () => {
     const [signedVerification, setsignedVerification] = useState(true)
@@ -80,7 +81,7 @@ const ProjectCreateDashboard = () => {
             <Input type="file" accept="image/*" />
           </FormControl>
 
-          <FormControl>
+          <FormControl isRequired>
             <FormLabel>Website Link</FormLabel>
             <Input type="url" placeholder="Link to your Project site" />
           </FormControl>
@@ -128,7 +129,7 @@ const ProjectCreateDashboard = () => {
             <Textarea placeholder="List the technologies used (e.g., Solidity, React)" />
           </FormControl>
 
-          <FormControl>
+          <FormControl isRequired>
             <FormLabel>GitHub Repository URL</FormLabel>
             <Input
               type="url"
@@ -246,7 +247,27 @@ const ProjectCreateDashboard = () => {
           )}
 
           <FormControl isRequired>
-            <Checkbox>I agree to the Terms and Conditions</Checkbox>
+            <Checkbox display="flex">
+              <Box display="flex" gap="0.2rem">
+                <Text>
+                  I agree to the 
+                </Text>
+                <Link href="" target="_blank">
+                  <Text textDecoration="underline" color="blue">
+                    Terms and Conditions
+                  </Text>
+                </Link>
+                <Text>
+                  and
+                </Text>
+                <Link href="" target="_blank">
+                  <Text textDecoration="underline" color="blue">
+                    Privacy Policy
+                  </Text>
+                </Link>
+              </Box>
+              
+            </Checkbox>
           </FormControl>
 
           <Button type="submit" colorScheme="teal">
