@@ -44,7 +44,7 @@ const MarketDashboard = () => {
             <Avatar
                         name="Dan Abrahmov"
                         src="https://bit.ly/dan-abramov"
-                      />
+                    />
               <Box>
               <Box display="flex" gap="1rem">
                   {project?.name}

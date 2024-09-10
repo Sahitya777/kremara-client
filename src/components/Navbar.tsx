@@ -43,6 +43,14 @@ const Navbar = () => {
           >
             Projects
           </Box>
+          <Box
+            onClick={() => {
+              router.push("/rewards");
+            }}
+            cursor="pointer"
+          >
+            Rewards
+          </Box>
         </Box>
       </Box>
       <Box display="flex" gap="1rem" cursor="pointer">
