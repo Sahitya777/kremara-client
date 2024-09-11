@@ -121,7 +121,7 @@ const ProjectDashboard = () => {
 
         }
       </Box>
-      <Box bg="grey" borderRadius="6px"  width="20%" padding="2rem" >
+      <Box bg="grey" borderRadius="6px"  width="20%" padding="2rem" minH="500px" >
         <Box display="flex" >
           <Text  isTruncated>
             Project Details

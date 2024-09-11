@@ -69,7 +69,7 @@ const TaskDetailPage = () => {
             Task Description
           </Heading>
           <Text mb={2}>
-            Design a new logo that represents the company's modern approach to
+            Design a new logo that represents the company&apos;s modern approach to
             design and is compatible with various branding materials.
           </Text>
         </Box>
@@ -110,7 +110,7 @@ const TaskDetailPage = () => {
                     Apply to Work on Task
                   </Heading>
                   <Text mb={4}>
-                    Provide a short message explaining why you're interested in
+                    Provide a short message explaining why you&apos;re interested in
                     this task.
                   </Text>
                   <Textarea
@@ -133,7 +133,7 @@ const TaskDetailPage = () => {
                     <Box>
                       <Text mb={4}>
                         Congratulations! Your application has been approved. You
-                        can now submit your work when you're ready.
+                        can now submit your work when you&apos;re ready.
                       </Text>
                       <Button colorScheme="green" onClick={handleTaskSubmission}>
                         Submit Task
