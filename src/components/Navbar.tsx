@@ -1,4 +1,4 @@
-import { Box, Text } from "@chakra-ui/react";
+import { Avatar, Box, Text } from "@chakra-ui/react";
 import { GoogleLogin } from "@react-oauth/google";
 import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
@@ -81,7 +81,7 @@ const Navbar = () => {
                 {session?.user?.name}
               </Text>
             </Box>
-            {profileDropdownSelected &&<Box position="fixed" right="4" gap="1rem" mt="0.65rem" width="200px" padding="16px" borderRadius="6px" display="flex" flexDirection="column" bg="grey">
+            {profileDropdownSelected &&<Box position="fixed" zIndex="200" right="4" gap="1rem" mt="0.65rem" width="200px" padding="16px" borderRadius="6px" display="flex" flexDirection="column" bg="grey">
               <Box
               cursor="pointer"
               display="flex"
@@ -90,12 +90,9 @@ const Navbar = () => {
               borderRadius="6px"
               gap="0.5rem"
             >
-              <Image
+              <Avatar
                 src={session?.user?.image as string}
-                alt="image"
-                width={24}
-                height={24}
-                style={{ borderRadius: "60px" }}
+                size="sm"
               />
               <Text
               >

@@ -2,9 +2,14 @@ import {
   Avatar,
   Box,
   Button,
+  Heading,
   Input,
   InputGroup,
   InputLeftElement,
+  Slider,
+  SliderFilledTrack,
+  SliderThumb,
+  SliderTrack,
   Tab,
   TabList,
   TabPanel,
@@ -12,6 +17,7 @@ import {
   Tabs,
   Text,
   Tooltip,
+  VStack,
 } from "@chakra-ui/react";
 import React, { useRef, useState } from "react";
 
@@ -90,6 +96,13 @@ const SettingDashboard = () => {
     } else {
     }
   };
+  const [level, setLevel] = useState(0); // 0: Beginner, 1: Intermediate, 2: Advanced
+  const levels = ["Beginner", "Intermediate", "Advanced"];
+  const [experienceLevel, setexperienceLevel] = useState(
+    "Select your exp level"
+  );
+  const [experienceLevelDropdown, setexperienceLevelDropdown] = useState(false);
+
   return (
     <Box display="flex" padding="32px" gap="4rem">
       <Box bg="grey" height="500px" padding="3rem" borderRadius="6px">
@@ -150,6 +163,108 @@ const SettingDashboard = () => {
                       </InputLeftElement>
                       <Input type="tel" placeholder="Telegram" />
                     </InputGroup>
+                  </Box>
+                </Box>
+                <Box
+                  mt="1rem"
+                  bg="grey"
+                  borderRadius="6px"
+                  width="100%"
+                  display="flex"
+                  flexDirection="column"
+                  padding="2rem"
+                >
+                  <Box>
+                    <Text fontSize="24px">
+                      How Would You Describe Your Experience?
+                    </Text>
+                    <Text>
+                      Help us understand your expertise to tailor your
+                      experience.
+                    </Text>
+                  </Box>
+                  <Box
+                    display="flex"
+                    border="1px solid var(--stroke-of-30, rgba(103, 109, 154, 0.30))"
+                    justifyContent="space-between"
+                    py="2"
+                    pl="3"
+                    pr="3"
+                    bg="beige"
+                    // mb="1rem"
+                    // mt="0.3rem"
+                    mt="1rem"
+                    borderRadius="md"
+                    className="navbar"
+                    cursor="pointer"
+                    fontSize="sm"
+                    position="relative"
+                    onClick={() => {
+                      setexperienceLevelDropdown(!experienceLevelDropdown);
+                      // setapplicationDropdownSelected(
+                      //   !applicationDropdownSelected
+                      // );
+                      // setapplicationDropdownIndexSelected(index);
+                    }}
+                  >
+                    <Box display="flex" gap="1" userSelect="none">
+                      <Text color="black">{experienceLevel}</Text>
+                    </Box>
+
+                    <Box pt="1" className="navbar-button">
+                      Drop
+                    </Box>
+
+                    {experienceLevelDropdown && (
+                      <Box
+                        position="absolute"
+                        top="100%" // Align below the button
+                        left="0"
+                        zIndex="1000" // Ensure it appears on top
+                        bg="beige"
+                        border="1px solid var(--stroke-of-30, rgba(103, 109, 154, 0.30))"
+                        py="2"
+                        className="dropdown-container"
+                        boxShadow="dark-lg"
+                        height="120px"
+                        overflowY="auto"
+                        userSelect="none"
+                        width="100%" // Ensure it has the same width as the button
+                      >
+                        {levels?.map((level, indexList) => {
+                          return (
+                            <Box
+                              key={indexList}
+                              as="button"
+                              w="full"
+                              alignItems="center"
+                              gap="1"
+                              pr="2"
+                              display="flex"
+                              onClick={() => {
+                                setexperienceLevel(level);
+                              }}
+                            >
+                              <Box
+                                w="full"
+                                display="flex"
+                                py="5px"
+                                px="6px"
+                                gap="1"
+                                justifyContent="space-between"
+                                borderRadius="md"
+                                _hover={{ bg: "#676D9A4D" }}
+                                ml=".4rem"
+                              >
+                                <Text color="black" ml=".6rem">
+                                  {level}
+                                </Text>
+                              </Box>
+                            </Box>
+                          );
+                        })}
+                      </Box>
+                    )}
                   </Box>
                 </Box>
                 <Box bg="grey" padding="2rem" borderRadius="6px" mt="1rem">
@@ -348,7 +463,7 @@ const SettingDashboard = () => {
                     >
                       {[...Array(count)].map((_, index) => (
                         <Box
-                        key={index}
+                          key={index}
                           display="flex"
                           alignItems="center"
                           gap="1rem"
@@ -572,6 +687,13 @@ const SettingDashboard = () => {
                     </Box>
                   )}
                 </Box>
+                <Box bg="grey" padding="2rem" borderRadius="6px" mt="2rem" mb="8rem">
+                  <Text fontSize="24px">Danger Zone</Text>
+                  <Text>Only come into this area if you are depressed</Text>
+                  <Button bg="red" mt="1rem">
+                    Delete this Account
+                  </Button>
+                </Box>
               </TabPanel>
               <TabPanel p="0" m="0" mt="2rem">
                 <Box bg="grey" padding="2rem" borderRadius="6px">
@@ -697,13 +819,28 @@ const SettingDashboard = () => {
               </TabPanel>
             </TabPanels>
           </Tabs>
-        </Box>
-        <Box bg="grey" padding="2rem" borderRadius="6px">
-          <Text fontSize="24px">Danger Zone</Text>
-          <Text>Only come into this area if you are depressed</Text>
-          <Button bg="red" mt="1rem">
-            Delete this Account
-          </Button>
+          <Box
+                  bg="grey"
+                  mt="1rem"
+                  display="flex"
+                  justifyContent="space-between"
+                  gap="2rem"
+                  padding="2rem"
+                  borderRadius="6px"
+                  position="fixed"
+                  bottom="0"
+                  width="80%"
+                >
+                  <Box>Changes</Box>
+                  <Box display="flex" gap="2rem">
+                    <Box>
+                      <Button>Review Profile</Button>
+                    </Box>
+                    <Box>
+                      <Button>Make Changes</Button>
+                    </Box>
+                  </Box>
+                </Box>
         </Box>
       </Box>
     </Box>
