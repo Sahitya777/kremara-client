@@ -15,17 +15,68 @@ import {
   TabPanel,
   TabPanels,
   Tabs,
+  Tag,
+  TagCloseButton,
+  TagLabel,
   Text,
   Tooltip,
   VStack,
+  Wrap,
+  WrapItem,
 } from "@chakra-ui/react";
+import { useRouter } from "next/router";
 import React, { useRef, useState } from "react";
 
 const SettingDashboard = () => {
+  const router = useRouter();
   const [userData, setuserData] = useState();
+  const [skillSetDropdown, setskillSetDropdown] = useState<boolean>(false);
+  const [categoryDropdownSelected, setcategoryDropdownSelected] =
+    useState<boolean>(false);
+  const [userCatgory, setuserCatgory] = useState([
+    "Desginer",
+    "Content Creator",
+    "Developer Relations",
+    "Growth/Marketing",
+  ]);
+  const [userSelectedCategory, setuserSelectedCategory] = useState<any>([]);
   const [suggestionScreenshotFilename, setSuggestionScreenshotFilename] =
     useState("");
+  const [skillSet, setskillSet] = useState([
+    "Public Speaking",
+    "Community Management",
+    "Content Creation",
+    "Technical Documentation",
+    "API Design",
+    "GitHub",
+    "Event Planning",
+    "Social Media Management",
+    "Developer Advocacy",
+    "Open Source Contribution",
+    "UX Design",
+    "UI Design",
+    "Figma",
+    "Photoshop",
+    "Illustrator",
+    "Sketch",
+    "Wireframing",
+    "Prototyping",
+    "Responsive Design",
+    "Color Theory",
+    "SEO",
+    "Video Editing",
+    "Content Strategy",
+    "Copywriting",
+    "Podcasting",
+    "Social Media Marketing",
+    "Canva",
+    "Final Cut Pro",
+    "Hootsuite",
+    "Analytics",
+  ]);
+
   const [userTitle, setuserTitle] = useState("");
+  const [selectedSkillSet, setSelectedSkillSet] = useState<any>([]);
   const [contentCreatorTabSelected, setcontentCreatorTabSelected] =
     useState(false);
   const [designerTabSelected, setdesignerTabSelected] = useState(false);
@@ -69,7 +120,6 @@ const SettingDashboard = () => {
     setapplicationDropdownIndexSelected,
   ] = useState<number>(0);
   const [selectedApplications, setSelectedApplications] = useState<any>({});
-  console.log(selectedApplications, "app");
   const handleApplicationSelect = (index: any, name: any, id: any) => {
     setSelectedApplications((prev: any) => ({
       ...prev,
@@ -102,6 +152,96 @@ const SettingDashboard = () => {
     "Select your exp level"
   );
   const [experienceLevelDropdown, setexperienceLevelDropdown] = useState(false);
+
+  const [socialMediaIds, setSocialMediaIds] = useState<any>({
+    twitter: "",
+    linkedin: "",
+    telegram: "",
+    instagram: "",
+    discord: "",
+    youtube: "",
+    reddit: "",
+    behance: "",
+    figma: "",
+    dribbble: "",
+    tiktok: "",
+    facebook: "",
+  });
+
+  const baseUrls: any = {
+    twitter: "https://twitter.com/",
+    linkedin: "https://linkedin.com/in/",
+    telegram: "https://t.me/",
+    instagram: "https://instagram.com/",
+    discord: "https://discord.com/users/",
+    youtube: "https://youtube.com/@",
+    reddit: "https://reddit.com/user/",
+    behance: "https://behance.net/",
+    figma: "https://figma.com/@",
+    dribbble: "https://dribbble.com/",
+    tiktok: "https://tiktok.com/@",
+    facebook: "https://facebook.com/",
+  };
+
+  const handleInputChange = (platform: any, value: any) => {
+    setSocialMediaIds((prevState: any) => ({
+      ...prevState,
+      [platform]: value,
+    }));
+  };
+
+  const handleSelectOption = (option: any, dropdown: any) => {
+    if (dropdown === "category") {
+      if (!userSelectedCategory.includes(option)) {
+        setuserSelectedCategory([...userSelectedCategory, option]);
+        setuserCatgory(userCatgory.filter((opt) => opt !== option));
+      }
+    } else if (dropdown === "skills") {
+      if (!selectedSkillSet.includes(option)) {
+        setSelectedSkillSet([...selectedSkillSet, option]);
+        setskillSet(skillSet.filter((opt) => opt !== option));
+      }
+    }
+  };
+
+  const removeOption = (option: any, dropdown: any) => {
+    if (dropdown === "category") {
+      setuserSelectedCategory(
+        userSelectedCategory.filter((opt: any) => opt !== option)
+      );
+      setuserCatgory([...userCatgory, option]);
+    } else if (dropdown === "skills") {
+      setSelectedSkillSet(
+        selectedSkillSet.filter((opt: any) => opt !== option)
+      );
+      setskillSet([...skillSet, option]);
+    }
+  };
+
+  const handleSubmit = () => {
+    const fullLinks: any = {};
+
+    // Only include platforms that have been filled out
+    for (const platform in socialMediaIds) {
+      if (socialMediaIds[platform]) {
+        fullLinks[
+          platform
+        ] = `${baseUrls[platform]}${socialMediaIds[platform]}`;
+      }
+    }
+
+    // Send the fullLinks object to your backend API
+    console.log("Full links to send to API:", fullLinks);
+
+    // Example API call (pseudo-code)
+    // fetch("/api/socialMedia", {
+    //   method: "POST",
+    //   body: JSON.stringify(fullLinks),
+    //   headers: {
+    //     "Content-Type": "application/json"
+    //   }
+    // });
+  };
 
   return (
     <Box display="flex" padding="32px" gap="4rem">
@@ -161,7 +301,14 @@ const SettingDashboard = () => {
                         Icon
                         {/* <PhoneIcon color='gray.300' /> */}
                       </InputLeftElement>
-                      <Input type="tel" placeholder="Telegram" />
+                      <Input
+                        type="text"
+                        placeholder="Telegram ID"
+                        value={socialMediaIds.telegram}
+                        onChange={(e) =>
+                          handleInputChange("telegram", e.target.value)
+                        }
+                      />
                     </InputGroup>
                   </Box>
                 </Box>
@@ -264,6 +411,238 @@ const SettingDashboard = () => {
                           );
                         })}
                       </Box>
+                    )}
+                  </Box>
+                </Box>
+                <Box
+                  mt="1rem"
+                  bg="grey"
+                  borderRadius="6px"
+                  width="100%"
+                  display="flex"
+                  flexDirection="column"
+                  padding="2rem"
+                >
+                  <Box>
+                    <Text fontSize="24px">Describe your skillset</Text>
+                    <Text>
+                      Help us understand your expertise to tailor your
+                      experience.
+                    </Text>
+                  </Box>
+                  <Box width="100%">
+                    <Box
+                      display="flex"
+                      border="1px solid var(--stroke-of-30, rgba(103, 109, 154, 0.30))"
+                      justifyContent="space-between"
+                      py="2"
+                      pl="3"
+                      pr="3"
+                      borderRadius="md"
+                      mb="1rem"
+                      className="navbar"
+                      cursor="pointer"
+                      fontSize="sm"
+                      position="relative"
+                      onClick={() => {
+                        setcategoryDropdownSelected(!categoryDropdownSelected);
+                      }}
+                    >
+                      <Box display="flex" gap="1" userSelect="none">
+                        <Text color="black">Select Category</Text>
+                      </Box>
+
+                      <Box pt="1" className="navbar-button">
+                        Drop
+                      </Box>
+
+                      {categoryDropdownSelected && userCatgory.length !== 0 && (
+                        <Box
+                          position="absolute"
+                          top="100%" // Align below the button
+                          left="0"
+                          zIndex="1000" // Ensure it appears on top
+                          bg="#03060B"
+                          border="1px solid var(--stroke-of-30, rgba(103, 109, 154, 0.30))"
+                          py="2"
+                          className="dropdown-container"
+                          boxShadow="dark-lg"
+                          height="120px"
+                          overflowY="auto"
+                          userSelect="none"
+                          width="100%" // Ensure it has the same width as the button
+                        >
+                          {userCatgory?.map((skill, indexList) => {
+                            return (
+                              <Box
+                                key={indexList}
+                                as="button"
+                                w="full"
+                                alignItems="center"
+                                gap="1"
+                                pr="2"
+                                display="flex"
+                                onClick={() => {
+                                  handleSelectOption(skill, "category");
+                                }}
+                              >
+                                <Box
+                                  w="full"
+                                  display="flex"
+                                  py="5px"
+                                  px="6px"
+                                  gap="1"
+                                  justifyContent="space-between"
+                                  borderRadius="md"
+                                  _hover={{ bg: "#676D9A4D" }}
+                                  ml=".4rem"
+                                >
+                                  <Text color="white" ml=".6rem">
+                                    {skill}
+                                  </Text>
+                                </Box>
+                              </Box>
+                            );
+                          })}
+                        </Box>
+                      )}
+                    </Box>
+
+                    {userSelectedCategory.length > 0 && (
+                      <Wrap spacing={2} mt={4}>
+                        {userSelectedCategory.map(
+                          (option: any, index: number) => (
+                            <WrapItem key={index}>
+                              <Tag
+                                size="md"
+                                colorScheme="blue"
+                                borderRadius="full"
+                              >
+                                <TagLabel>{option}</TagLabel>
+                                <TagCloseButton
+                                  onClick={() =>
+                                    removeOption(option, "category")
+                                  }
+                                />
+                              </Tag>
+                            </WrapItem>
+                          )
+                        )}
+                      </Wrap>
+                    )}
+
+                    <Box
+                      display="flex"
+                      border="1px solid var(--stroke-of-30, rgba(103, 109, 154, 0.30))"
+                      justifyContent="space-between"
+                      py="2"
+                      pl="3"
+                      pr="3"
+                      ml="0.4rem"
+                      borderRadius="md"
+                      className="navbar"
+                      cursor="pointer"
+                      fontSize="sm"
+                      position="relative"
+                      onClick={() => {
+                        setskillSetDropdown(!skillSetDropdown);
+                      }}
+                    >
+                      <Box display="flex" gap="1" userSelect="none">
+                        <Text color="black">Select Tags</Text>
+                      </Box>
+
+                      <Box pt="1" className="navbar-button">
+                        Drop
+                      </Box>
+
+                      {skillSetDropdown && skillSet.length !== 0 && (
+                        <Box
+                          position="absolute"
+                          top="100%" // Align below the button
+                          left="0"
+                          zIndex="1000" // Ensure it appears on top
+                          bg="#03060B"
+                          border="1px solid var(--stroke-of-30, rgba(103, 109, 154, 0.30))"
+                          py="2"
+                          className="dropdown-container"
+                          boxShadow="dark-lg"
+                          height="120px"
+                          overflowY="auto"
+                          userSelect="none"
+                          width="100%" // Ensure it has the same width as the button
+                        >
+                          {skillSet?.map((skill, indexList) => {
+                            return (
+                              <Box
+                                key={indexList}
+                                as="button"
+                                w="full"
+                                alignItems="center"
+                                gap="1"
+                                pr="2"
+                                display="flex"
+                                onClick={() => {
+                                  handleSelectOption(skill, "skills");
+                                }}
+                              >
+                                <Box
+                                  w="full"
+                                  display="flex"
+                                  py="5px"
+                                  px="6px"
+                                  gap="1"
+                                  justifyContent="space-between"
+                                  borderRadius="md"
+                                  _hover={{ bg: "#676D9A4D" }}
+                                  ml=".4rem"
+                                >
+                                  <Text color="white" ml=".6rem">
+                                    {skill}
+                                  </Text>
+                                </Box>
+                              </Box>
+                            );
+                          })}
+                        </Box>
+                      )}
+                    </Box>
+
+                    {/* Selected tags displayed below the dropdown */}
+                    {selectedSkillSet.length > 0 && (
+                      <Wrap spacing={2} mt={4}>
+                        {selectedSkillSet.map((option: any, index: number) => (
+                          <WrapItem key={index}>
+                            <Tag
+                              size="md"
+                              colorScheme="blue"
+                              borderRadius="full"
+                            >
+                              <TagLabel>{option}</TagLabel>
+                              <TagCloseButton
+                                onClick={() => removeOption(option, "skills")}
+                              />
+                            </Tag>
+                          </WrapItem>
+                        ))}
+                      </Wrap>
+                    )}
+
+                    {/* Button to remove all selected tags */}
+                    {selectedSkillSet.length > 0 && (
+                      <Button
+                        mt={4}
+                        colorScheme="red"
+                        onClick={() => {
+                          // Add all selected items back to skillSet
+                          setskillSet((prev) => [...prev, ...selectedSkillSet]);
+
+                          // Clear the selectedSkillSet array
+                          setSelectedSkillSet([]);
+                        }}
+                      >
+                        Remove All Tags
+                      </Button>
                     )}
                   </Box>
                 </Box>
@@ -687,7 +1066,13 @@ const SettingDashboard = () => {
                     </Box>
                   )}
                 </Box>
-                <Box bg="grey" padding="2rem" borderRadius="6px" mt="2rem" mb="8rem">
+                <Box
+                  bg="grey"
+                  padding="2rem"
+                  borderRadius="6px"
+                  mt="2rem"
+                  mb="8rem"
+                >
                   <Text fontSize="24px">Danger Zone</Text>
                   <Text>Only come into this area if you are depressed</Text>
                   <Button bg="red" mt="1rem">
@@ -820,27 +1205,39 @@ const SettingDashboard = () => {
             </TabPanels>
           </Tabs>
           <Box
-                  bg="grey"
-                  mt="1rem"
-                  display="flex"
-                  justifyContent="space-between"
-                  gap="2rem"
-                  padding="2rem"
-                  borderRadius="6px"
-                  position="fixed"
-                  bottom="0"
-                  width="80%"
+            bg="grey"
+            mt="1rem"
+            display="flex"
+            justifyContent="space-between"
+            gap="2rem"
+            padding="2rem"
+            borderRadius="6px"
+            position="fixed"
+            bottom="0"
+            width="80%"
+          >
+            <Box>Changes</Box>
+            <Box display="flex" gap="2rem">
+              <Box>
+                <Button
+                  onClick={() => {
+                    window.open("/profile/id", "_blank");
+                  }}
                 >
-                  <Box>Changes</Box>
-                  <Box display="flex" gap="2rem">
-                    <Box>
-                      <Button>Review Profile</Button>
-                    </Box>
-                    <Box>
-                      <Button>Make Changes</Button>
-                    </Box>
-                  </Box>
-                </Box>
+                  Review Profile
+                </Button>
+              </Box>
+              <Box>
+                <Button
+                  onClick={() => {
+                    handleSubmit();
+                  }}
+                >
+                  Make Changes
+                </Button>
+              </Box>
+            </Box>
+          </Box>
         </Box>
       </Box>
     </Box>

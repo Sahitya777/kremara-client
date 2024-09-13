@@ -29,7 +29,7 @@ const MarketDashboard = () => {
             </Text>}
             {session && <SignInModal variant="ghost" buttonText="Sign in to create project"/>}
             {!session &&<Button onClick={()=>{
-                router.push(`/create`)
+                router.push(`/register`)
             }}>
                 Register
             </Button>}

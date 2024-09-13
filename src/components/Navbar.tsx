@@ -9,8 +9,13 @@ import Image from "next/image";
 const Navbar = () => {
   const router = useRouter();
   const { data: session } = useSession();
-  const [profileDropdownSelected, setprofileDropdownSelected] = useState(false)
-  console.log(session,'ss')
+  const [profileDropdownSelected, setprofileDropdownSelected] = useState(false);
+  console.log(session, "ss");
+  //   {
+  //     "name": "Sahitya Nijhawan",
+  //     "email": "sahityanijhawan@gmail.com",
+  //     "image": "https://lh3.googleusercontent.com/a/ACg8ocI69TCXC9_BxAFH_sKiTzRsFquvkapnMIas7SO-Y_drqvIHVw=s96-c"
+  // }
   return (
     <Box
       display="flex"
@@ -56,10 +61,11 @@ const Navbar = () => {
       <Box display="flex" gap="1rem" cursor="pointer">
         <Box fontSize="20px">Notification</Box>
         {session && (
-          <Box             
-          onClick={()=>{
-            setprofileDropdownSelected(!profileDropdownSelected)
-          }}>
+          <Box
+            onClick={() => {
+              setprofileDropdownSelected(!profileDropdownSelected);
+            }}
+          >
             <Box
               cursor="pointer"
               display="flex"
@@ -69,54 +75,69 @@ const Navbar = () => {
               borderRadius="6px"
               gap="0.5rem"
             >
-              <Image
-                src={session?.user?.image as string}
-                alt="image"
-                width={24}
-                height={24}
-                style={{ borderRadius: "60px" }}
-              />
-              <Text
-              >
-                {session?.user?.name}
-              </Text>
-            </Box>
-            {profileDropdownSelected &&<Box position="fixed" zIndex="200" right="4" gap="1rem" mt="0.65rem" width="200px" padding="16px" borderRadius="6px" display="flex" flexDirection="column" bg="grey">
-              <Box
-              cursor="pointer"
-              display="flex"
-              border="1px solid grey"
-              padding="6px"
-              borderRadius="6px"
-              gap="0.5rem"
-            >
               <Avatar
-                src={session?.user?.image as string}
-                size="sm"
+                src={
+                  "https://lh3.googleusercontent.com/a/ACg8ocI69TCXC9_BxAFH_sKiTzRsFquvkapnMIas7SO-Y_drqvIHVw=s96-c"
+                }
+                size="xs"
               />
-              <Text
-              >
-                {session?.user?.name}
-              </Text>
+              <Text whiteSpace="nowrap">{session?.user?.name}</Text>
             </Box>
-              <Box onClick={()=>{
-                setprofileDropdownSelected(!profileDropdownSelected)
-                router.push('/settings')
-              }}>
-                Settings
+            {profileDropdownSelected && (
+              <Box
+                position="fixed"
+                zIndex="200"
+                right="4"
+                gap="1rem"
+                mt="0.65rem"
+                width="200px"
+                padding="16px"
+                borderRadius="6px"
+                display="flex"
+                flexDirection="column"
+                bg="grey"
+              >
+                <Box
+                  cursor="pointer"
+                  display="flex"
+                  border="1px solid grey"
+                  padding="6px"
+                  borderRadius="6px"
+                  gap="0.5rem"
+                >
+                  <Avatar
+                    src={
+                      "https://lh3.googleusercontent.com/a/ACg8ocI69TCXC9_BxAFH_sKiTzRsFquvkapnMIas7SO-Y_drqvIHVw=s96-c"
+                    }
+                    size="xs"
+                  />
+                  <Text whiteSpace="nowrap">{session?.user?.name}</Text>
+                </Box>
+                <Box
+                  onClick={() => {
+                    setprofileDropdownSelected(!profileDropdownSelected);
+                    router.push("/settings");
+                  }}
+                >
+                  Settings
+                </Box>
+                <Box
+                  onClick={() => {
+                    setprofileDropdownSelected(!profileDropdownSelected);
+                    router.push(`profile/sahi`);
+                  }}
+                >
+                  Public Profile
+                </Box>
+                <Box
+                  onClick={() => {
+                    signOut();
+                  }}
+                >
+                  Log out
+                </Box>
               </Box>
-              <Box onClick={()=>{
-                setprofileDropdownSelected(!profileDropdownSelected)
-                router.push(`profile/sahi`)
-              }}>
-                Public Profile
-              </Box>
-              <Box onClick={()=>{
-                signOut()
-              }}>
-                Log out
-              </Box>
-            </Box>}
+            )}
           </Box>
         )}
         {!session && <SignInModal buttonText="Sign In" />}

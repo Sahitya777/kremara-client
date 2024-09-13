@@ -34,6 +34,7 @@ const Homedashboard = () => {
     },
   ];
   const [contributors, setcontributors] = useState<Contributor[]>([]);
+  const [recentActivity, setrecentActivity] = useState([])
   const router = useRouter();
   const { data: session } = useSession();
   const scroll = keyframes`
@@ -105,216 +106,222 @@ const Homedashboard = () => {
               Click here
             </Button>
           </Box>
-          {!session &&<Box
-            padding="2rem"
-            mt="1rem"
-            bg="purple.400"
-            borderRadius="12px"
-            textAlign="center"
-            boxShadow="lg"
-            // maxW="600px"
-            animation={`${fadeIn} 1s ease-out`}
-          >
-            <Text fontSize="2xl" color="white" fontWeight="bold" mb="1rem">
-              Ready to Join the Future of Web3?
-            </Text>
-            <Text fontSize="lg" color="white" mb="2rem">
-              Sign up now to start your journey with Kremara and be part of the
-              next big thing in creative innovation. 🚀
-            </Text>
-            <SignInModal
-              buttonText="Sign Up Now"
-              bg="yellow.400"
-              color="black"
-              _hover={{ bg: "yellow.300" }}
-              _focus={{ outline: "none" }}
-              px="1.5rem"
-              py="1rem"
-              borderRadius="8px"
-              fontWeight="bold"
-              size="lg"
-            />
-          </Box>}
+          {!session && (
+            <Box
+              padding="2rem"
+              mt="1rem"
+              bg="purple.400"
+              borderRadius="12px"
+              textAlign="center"
+              boxShadow="lg"
+              // maxW="600px"
+              animation={`${fadeIn} 1s ease-out`}
+            >
+              <Text fontSize="2xl" color="white" fontWeight="bold" mb="1rem">
+                Ready to Join the Future of Web3?
+              </Text>
+              <Text fontSize="lg" color="white" mb="2rem">
+                Sign up now to start your journey with Kremara and be part of
+                the next big thing in creative innovation. 🚀
+              </Text>
+              <SignInModal
+                buttonText="Sign Up Now"
+                bg="yellow.400"
+                color="black"
+                _hover={{ bg: "yellow.300" }}
+                _focus={{ outline: "none" }}
+                px="1.5rem"
+                py="1rem"
+                borderRadius="8px"
+                fontWeight="bold"
+                size="lg"
+              />
+            </Box>
+          )}
           <Box
-  bg="grey"
-  mt="1rem"
-  height="350px" // Fixed height
-  padding="2rem"
-  borderRadius="6px"
-  display="flex"
-  flexDirection="column"
->
-  <Box>
-    <Text fontSize="24px">Top trending projects</Text>
-  </Box>
-  <Box overflowY="auto" mt="1rem" flex="1">
-    {projects.map((project: Project, index: number) => (
-      <Box display="flex" justifyContent="space-between" mt="2rem" key={index}>
-        <Box display="flex" gap="1rem">
-          <Avatar src={project.logo as string} />
-          <Box>
-            <Text>{project.name}</Text>
-            <Text>{project.description}</Text>
-          </Box>
-        </Box>
-        <Box>
-          <Button
-            cursor="pointer"
-            onClick={() => {
-              router.push(`/project/${project?.name}`);
-            }}
+            bg="grey"
+            mt="1rem"
+            height="350px" // Fixed height
+            padding="2rem"
+            borderRadius="6px"
+            display="flex"
+            flexDirection="column"
           >
-            Click for project
-          </Button>
-        </Box>
-      </Box>
-    ))}
-  </Box>
-</Box>
-
+            <Box>
+              <Text fontSize="24px">Top trending projects</Text>
+            </Box>
+            <Box overflowY="auto" mt="1rem" flex="1">
+              {projects.map((project: Project, index: number) => (
+                <Box
+                  display="flex"
+                  justifyContent="space-between"
+                  mt="2rem"
+                  key={index}
+                >
+                  <Box display="flex" gap="1rem">
+                    <Avatar src={project.logo as string} />
+                    <Box>
+                      <Text>{project.name}</Text>
+                      <Text>{project.description}</Text>
+                    </Box>
+                  </Box>
+                  <Box>
+                    <Button
+                      cursor="pointer"
+                      onClick={() => {
+                        router.push(`/project/${project?.name}`);
+                      }}
+                    >
+                      Click for project
+                    </Button>
+                  </Box>
+                </Box>
+              ))}
+            </Box>
+          </Box>
         </Box>
         <Box width="30%">
           <Text fontSize="24px" mt="-0.5rem">
             Recent Acitivity
           </Text>
-        <Box
-          padding="1rem"
-          bg="linear-gradient(135deg, #6a11cb 0%, #2575fc 100%)"
-          borderRadius="6px"
-          fontSize="20px"
-          overflow="hidden"
-          maxH="250px"
-          boxShadow="xl"
-          position="relative"
-        >
           <Box
-            as="div"
-            display="flex"
-            cursor="pointer"
-            gap="1rem"
-            flexDirection="column"
-            animation={`${scroll} 10s linear infinite`}
-            // animationPlayState="running"  // Ensure animation runs by default
-            _hover={{ animationPlayState: "paused" }} // Pause on hover
+            padding="1rem"
+            bg="linear-gradient(135deg, #6a11cb 0%, #2575fc 100%)"
+            borderRadius="6px"
+            fontSize="20px"
+            overflow="hidden"
+            maxH="250px"
+            boxShadow="xl"
+            position="relative"
           >
-            {/* Individual text items styled and animated */}
-            <Text
-              width="100%"
-              bg="rgba(255, 255, 255, 0.1)"
-              p="0.5rem"
-              mb="0.5rem"
-              borderRadius="4px"
-              transition="background-color 0.3s"
-              _hover={{
-                backgroundColor: "yellow.400", // Highlighted on hover
-                color: "black",
-              }}
+            <Box
+              as="div"
+              display="flex"
+              cursor="pointer"
+              gap="1rem"
+              flexDirection="column"
+              animation={`${scroll} 10s linear infinite`}
+              // animationPlayState="running"  // Ensure animation runs by default
+              _hover={{ animationPlayState: "paused" }} // Pause on hover
             >
-              A new user has landed
-            </Text>
-            <Text
-              width="100%"
-              bg="rgba(255, 255, 255, 0.1)"
-              p="0.5rem"
-              mb="0.5rem"
-              borderRadius="4px"
-              transition="background-color 0.3s"
-              _hover={{
-                backgroundColor: "yellow.400", // Highlighted on hover
-                color: "black",
-              }}
-            >
-              This user contributed to the project
-            </Text>
-            <Text
-              width="100%"
-              bg="rgba(255, 255, 255, 0.1)"
-              p="0.5rem"
-              mb="0.5rem"
-              borderRadius="4px"
-              transition="background-color 0.3s"
-              _hover={{
-                backgroundColor: "yellow.400", // Highlighted on hover
-                color: "black",
-              }}
-            >
-              Someone got rewarded
-            </Text>
-            <Text
-              width="100%"
-              bg="rgba(255, 255, 255, 0.1)"
-              p="0.5rem"
-              mb="0.5rem"
-              borderRadius="4px"
-              transition="background-color 0.3s"
-              _hover={{
-                backgroundColor: "yellow.400", // Highlighted on hover
-                color: "black",
-              }}
-            >
-              A new project has landed
-            </Text>
-            <Text
-              width="100%"
-              bg="rgba(255, 255, 255, 0.1)"
-              p="0.5rem"
-              mb="0.5rem"
-              borderRadius="4px"
-              transition="background-color 0.3s"
-              _hover={{
-                backgroundColor: "yellow.400", // Highlighted on hover
-                color: "black",
-              }}
-            >
-              New tasks are available
-            </Text>
-            {/* Add more Text elements as needed */}
+              {/* Individual text items styled and animated */}
+              <Text
+                width="100%"
+                bg="rgba(255, 255, 255, 0.1)"
+                p="0.5rem"
+                mb="0.5rem"
+                borderRadius="4px"
+                transition="background-color 0.3s"
+                _hover={{
+                  backgroundColor: "yellow.400", // Highlighted on hover
+                  color: "black",
+                }}
+              >
+                A new user has landed
+              </Text>
+              <Text
+                width="100%"
+                bg="rgba(255, 255, 255, 0.1)"
+                p="0.5rem"
+                mb="0.5rem"
+                borderRadius="4px"
+                transition="background-color 0.3s"
+                _hover={{
+                  backgroundColor: "yellow.400", // Highlighted on hover
+                  color: "black",
+                }}
+              >
+                This user contributed to the project
+              </Text>
+              <Text
+                width="100%"
+                bg="rgba(255, 255, 255, 0.1)"
+                p="0.5rem"
+                mb="0.5rem"
+                borderRadius="4px"
+                transition="background-color 0.3s"
+                _hover={{
+                  backgroundColor: "yellow.400", // Highlighted on hover
+                  color: "black",
+                }}
+              >
+                Someone got rewarded
+              </Text>
+              <Text
+                width="100%"
+                bg="rgba(255, 255, 255, 0.1)"
+                p="0.5rem"
+                mb="0.5rem"
+                borderRadius="4px"
+                transition="background-color 0.3s"
+                _hover={{
+                  backgroundColor: "yellow.400", // Highlighted on hover
+                  color: "black",
+                }}
+              >
+                A new project has landed
+              </Text>
+              <Text
+                width="100%"
+                bg="rgba(255, 255, 255, 0.1)"
+                p="0.5rem"
+                mb="0.5rem"
+                borderRadius="4px"
+                transition="background-color 0.3s"
+                _hover={{
+                  backgroundColor: "yellow.400", // Highlighted on hover
+                  color: "black",
+                }}
+              >
+                New tasks are available
+              </Text>
+              {/* Add more Text elements as needed */}
+            </Box>
           </Box>
-        </Box>
-        <Text fontSize="24px" mt="1rem" >
+          <Text fontSize="24px" mt="1rem">
             Top Contributors
           </Text>
-        <Box
-          bg="grey"
-          // mt="1rem"
-          padding="1.5rem"
-          borderRadius="6px"
-          height="400px" // Same fixed height as the first box
-          display="flex"
-          flexDirection="column"
-        >
-          <Text>Top Contributors</Text>
-          <Box height="100%" overflowY="auto" mt="1rem">
-            <Table variant="simple" size="sm">
-              <Thead>
-                <Tr>
-                  <Th>Contributor</Th>
-                  <Th>Total Contributions</Th>
-                  <Th>Rewards</Th>
-                </Tr>
-              </Thead>
-              <Tbody>
-                {/* Example table data */}
-                {Array(100)
-                  .fill(0)
-                  .map((_, index) => (
-                    <Tr
-                      key={index}
-                      cursor="pointer"
-                      _hover={{ background: "blue" }}
-                      onClick={() => {
-                        router.push(`/profile/${index + 1}`);
-                      }}
-                    >
-                      <Td>Name {index + 1} </Td>
-                      <Td>{index * 2}</Td>
-                      <Td>{index + 2}</Td>
-                    </Tr>
-                  ))}
-              </Tbody>
-            </Table>
+          <Box
+            bg="grey"
+            // mt="1rem"
+            padding="1.5rem"
+            borderRadius="6px"
+            height="400px" // Same fixed height as the first box
+            display="flex"
+            flexDirection="column"
+          >
+            <Text>Top Contributors</Text>
+            <Box height="100%" overflowY="auto" mt="1rem">
+              <Table variant="simple" size="sm">
+                <Thead>
+                  <Tr>
+                    <Th>Contributor</Th>
+                    <Th>Total Contributions</Th>
+                    <Th>Rewards</Th>
+                  </Tr>
+                </Thead>
+                <Tbody>
+                  {/* Example table data */}
+                  {Array(100)
+                    .fill(0)
+                    .map((_, index) => (
+                      <Tr
+                        key={index}
+                        cursor="pointer"
+                        _hover={{ background: "blue" }}
+                        onClick={() => {
+                          router.push(`/profile/${index + 1}`);
+                        }}
+                      >
+                        <Td>Name {index + 1} </Td>
+                        <Td>{index * 2}</Td>
+                        <Td>{index + 2}</Td>
+                      </Tr>
+                    ))}
+                </Tbody>
+              </Table>
+            </Box>
           </Box>
-        </Box>
         </Box>
       </Box>
       <Box display="flex" gap="1rem" mt="3rem" width="100%">

@@ -16,7 +16,7 @@
     "@starknet-react/chains": "^0.1.7",
     "@starknet-react/core": "^2.9.0",
     "axios": "^1.7.6",
-    "framer-motion": "^11.3.31",
+    "framer-motion": "^11.5.4",
     "get-starknet-core": "^3.3.3",
     "jotai": "^2.9.3",
     "next": "14.2.7",
