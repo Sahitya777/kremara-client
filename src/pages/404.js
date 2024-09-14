@@ -42,7 +42,7 @@ export default function Custom404() {
         Looks like this page drifted away.
       </Text>
       <Text color="gray.500" mb={6}>
-        But don't worry, we’ll get you back on track.
+        But don&apos;t worry, we&apos;ll get you back on track.
       </Text>
 
       <Link href="/" passHref>
