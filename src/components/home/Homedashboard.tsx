@@ -14,10 +14,13 @@ import {
 } from "@chakra-ui/react";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import SignInModal from "../Modals/SignInModal";
+import axios from "axios";
+import { atom, useAtom } from "jotai";
+import { userAtom } from "@/store/user.atoms";
 const Homedashboard = () => {
   const projects: Project[] = [
     {
@@ -34,9 +37,10 @@ const Homedashboard = () => {
     },
   ];
   const [contributors, setcontributors] = useState<Contributor[]>([]);
-  const [recentActivity, setrecentActivity] = useState([])
+  const [recentActivity, setrecentActivity] = useState([]);
+  const [infoCodeUpdated, setinfoCodeUpdated] = useState(false)
   const router = useRouter();
-  const { data: session } = useSession();
+  const [userData,setUserData]=useAtom(userAtom)
   const scroll = keyframes`
   0% {
     transform: translateY(0);
@@ -60,6 +64,57 @@ const Homedashboard = () => {
   100% { opacity: 1; transform: translateY(0); }
   
 `;
+
+
+  useEffect(()=>{
+    try {
+      const userLoginToken=localStorage.getItem('userLoginCode')
+      if(userLoginToken && !userData){
+        console.log('entry')
+        const fetchUserData=async()=>{
+          const res=await axios.get(`${process.env.NEXT_PUBLIC_BACKEND_API}/user`,{
+            headers: {
+              "ngrok-skip-browser-warning": "69420",
+              Authorization:`Bearer ${userLoginToken}`
+            },
+          })
+          if(res?.data){
+            setUserData(res?.data?.data)
+          }
+        }
+        fetchUserData()
+      }
+    } catch (error) {
+      console.log(error,"erro in fetching code")
+    }
+  },[infoCodeUpdated])
+
+  useEffect(() => {
+    try {
+      if (router.query.code) {
+        const fetchuserInfo=async()=>{
+          const res=await axios.get(`${process.env.NEXT_PUBLIC_BACKEND_API}/auth/get-token?code=${router.query.code}`,          
+            {
+            headers: {
+              "ngrok-skip-browser-warning": "69420",
+            },
+          })
+          console.log(res?.data,"user ccheck sign in")
+          if(res?.data){
+            localStorage.setItem("userLoginCode", res?.data?.token as string);
+            setinfoCodeUpdated(true)
+          }
+        }
+        const userLoginToken=localStorage.getItem('userLoginCode')
+        if(!userLoginToken &&!userData){
+          fetchuserInfo()
+        }
+      }
+    } catch (error) {
+      console.log(error,"error in generating code")
+    }
+  }, [router.query.code]);
+
   return (
     <Box padding="4rem">
       <Box width="100%" display="flex" gap="2rem">
@@ -106,7 +161,7 @@ const Homedashboard = () => {
               Click here
             </Button>
           </Box>
-          {!session && (
+          {!userData && (
             <Box
               padding="2rem"
               mt="1rem"

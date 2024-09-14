@@ -75,7 +75,7 @@ const SignInModal = ({ buttonText, ...restProps }: any) => {
                 <Box color="black" display="flex" flexDirection="column" gap="1rem" mb="1rem">
                 <Box display="flex" justifyContent="space-around" cursor="pointer" border="1px solid grey" borderRadius="6px" padding="8px" onClick={()=>{
                   // signIn('google')
-                  router.push('https://1096-103-215-237-91.ngrok-free.app/auth/login')
+                  router.push(`${process.env.NEXT_PUBLIC_BACKEND_API}/auth/login`)
                 }}>
                     <Text>
                       Sign in with Google

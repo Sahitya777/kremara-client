@@ -4,6 +4,8 @@ import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
 import React, { useState } from "react";
 import SignInModal from "../Modals/SignInModal";
+import { useAtom } from "jotai";
+import { userAtom } from "@/store/user.atoms";
 
 const MarketDashboard = () => {
   const [projects, setprojects] = useState<Project[]>([
@@ -19,7 +21,10 @@ const MarketDashboard = () => {
     },
   ]);
   const router=useRouter()
+  const [userData] = useAtom(userAtom);
+  console.log(userData,"data")
   const { data: session } = useSession();
+
   return (
     <Box display="flex" padding="32px" gap="2rem" width="100%">
       <Box bg="grey" display="flex" flexDirection="column"padding="2rem" borderRadius="6px" width="20%" minHeight="500px">

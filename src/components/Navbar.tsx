@@ -5,12 +5,14 @@ import React, { useEffect, useState } from "react";
 import { signIn, signOut, useSession } from "next-auth/react";
 import SignInModal from "./Modals/SignInModal";
 import Image from "next/image";
-
+import { userAtom } from "@/store/user.atoms";
+import { atom, useAtom, useAtomValue, useSetAtom } from "jotai";
 const Navbar = () => {
   const router = useRouter();
-  const { data: session } = useSession();
   const [profileDropdownSelected, setprofileDropdownSelected] = useState(false);
-  console.log(session, "ss");
+  const userData = useAtomValue<any>(userAtom);
+  const [loading, setloading] = useState(true);
+  const setUserData = useSetAtom(userAtom);
   //   {
   //     "name": "Sahitya Nijhawan",
   //     "email": "sahityanijhawan@gmail.com",
@@ -60,7 +62,8 @@ const Navbar = () => {
       </Box>
       <Box display="flex" gap="1rem" cursor="pointer">
         <Box fontSize="20px">Notification</Box>
-        {session && (
+
+        {userData && (
           <Box
             onClick={() => {
               setprofileDropdownSelected(!profileDropdownSelected);
@@ -75,13 +78,7 @@ const Navbar = () => {
               borderRadius="6px"
               gap="0.5rem"
             >
-              <Avatar
-                src={
-                  "https://lh3.googleusercontent.com/a/ACg8ocI69TCXC9_BxAFH_sKiTzRsFquvkapnMIas7SO-Y_drqvIHVw=s96-c"
-                }
-                size="xs"
-              />
-              <Text whiteSpace="nowrap">{session?.user?.name}</Text>
+              <Image src={userData?.image} alt="" width={24} height={24} style={{borderRadius:'20px'}}/>
             </Box>
             {profileDropdownSelected && (
               <Box
@@ -105,13 +102,10 @@ const Navbar = () => {
                   borderRadius="6px"
                   gap="0.5rem"
                 >
-                  <Avatar
-                    src={
-                      "https://lh3.googleusercontent.com/a/ACg8ocI69TCXC9_BxAFH_sKiTzRsFquvkapnMIas7SO-Y_drqvIHVw=s96-c"
-                    }
-                    size="xs"
-                  />
-                  <Text whiteSpace="nowrap">{session?.user?.name}</Text>
+                  <Image src={userData?.image} alt="" width={24} height={24} style={{borderRadius:'20px'}}/>
+                  <Text>
+                    {userData?.firstName+userData?.lastName}
+                  </Text>
                 </Box>
                 <Box
                   onClick={() => {
@@ -131,7 +125,8 @@ const Navbar = () => {
                 </Box>
                 <Box
                   onClick={() => {
-                    signOut();
+                    localStorage.setItem("userLoginCode", "");
+                    // setUserData(null)
                   }}
                 >
                   Log out
@@ -140,7 +135,7 @@ const Navbar = () => {
             )}
           </Box>
         )}
-        {!session && <SignInModal buttonText="Sign In" />}
+        {!userData && <SignInModal buttonText="Sign In" />}
       </Box>
     </Box>
   );

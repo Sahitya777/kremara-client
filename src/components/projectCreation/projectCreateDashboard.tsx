@@ -22,17 +22,20 @@ import { useStarknetkitConnectModal } from "starknetkit";
 import { MYCONNECTORS } from "@/pages/_app";
 import { useAccount, useConnect } from "@starknet-react/core";
 import Link from "next/link";
+import { TypedData } from "starknet";
 
 const ProjectCreateDashboard = () => {
     const [signedVerification, setsignedVerification] = useState(true)
     const [radioValue, setRadioValue] = useState('1')
+    const [message, setMessage] = useState<any>('Hello, StarkNet!');
+    const [signature, setSignature] = useState<any>(null);
     const { starknetkitConnectModal: starknetkitConnectModal1 } =
     useStarknetkitConnectModal({
       modalMode: 'canAsk',
       modalTheme: 'dark',
       connectors: MYCONNECTORS,
     });
-    const { address, connector } = useAccount();
+    const { address, connector,account } = useAccount();
     const { connect, connectors } = useConnect();
     const connectWallet = async () => {
       try {
@@ -48,6 +51,49 @@ const ProjectCreateDashboard = () => {
           console.error('connectWallet error', error);
           alert('Error connecting wallet');
         }
+      }
+    };
+    const handleSignMessage = async () => {
+      if (!account) {
+        console.error('No account connected');
+        return;
+      }
+      try {
+        const timestamp: number = Math.floor(Date.now() / 1000); // Current timestamp
+        const message: any = `Verify ownership of project: Owner's address = ${address} \n Project name = kremara \n Deployed contract =  \n Timestamp = ${timestamp}`;
+        const typedData: TypedData = {
+          domain: {
+              name: 'Starknet Verification',
+              version: '1',
+              chainId: 1, // For sepolia different and for mainnet different
+             // Contract address of the account
+          },
+          message: {
+              address:address,
+              contractAddress:'0x05970da1011e2f8dc15bc12fc1b0eb8e382300a334de06ad17d1404384b168e4',
+              projectName:'kremara',
+              timestamp:timestamp,
+          },
+          primaryType: 'Verification',
+          types: {
+            StarkNetDomain: [
+              { name: 'name', type: 'string' },
+              { name: 'version', type: 'felt' },
+              { name: 'chainId', type: 'felt' },
+            ],
+            Verification: [
+              { name: 'address', type: 'felt' },
+              { name: 'contractAddress', type: 'felt' },
+              { name: 'projectName', type: 'string' },
+              { name: 'timestamp', type: 'uint' },// root of a merkle tree
+            ],
+          },
+      };
+        const signedMessage = await account.signMessage(typedData);
+        setSignature(signedMessage);
+        console.log('Signed Message:', signedMessage);
+      } catch (error) {
+        console.error('Error signing message:', error);
       }
     };
   return (
@@ -204,7 +250,9 @@ const ProjectCreateDashboard = () => {
                 Connect
               </Button>}
               {address &&
-              <Button>
+              <Button onClick={()=>{
+                handleSignMessage()
+              }}>
                   Write call for signed part
               </Button>
 

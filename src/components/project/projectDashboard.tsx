@@ -9,7 +9,7 @@ import { useAccount, useConnect } from "@starknet-react/core";
 
 const ProjectDashboard = () => {
   const router = useRouter();
-  const [projectTasks, setprojectTasks] = useState([]);
+  const [projectTasks, setprojectTasks] = useState([0]);
   const [userType, setuserType] = useState("Moderator");
   const [projectAmountStaked, setprojectAmountStaked] = useState<Boolean>(true);
   const { starknetkitConnectModal: starknetkitConnectModal1 } =
