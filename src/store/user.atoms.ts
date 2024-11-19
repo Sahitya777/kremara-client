@@ -21,3 +21,7 @@ export const userAtom = atom(
 //     }
 //   }
 );
+
+export const contributorsAtom=atom(
+  null
+)

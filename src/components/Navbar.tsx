@@ -7,6 +7,8 @@ import SignInModal from "./Modals/SignInModal";
 import Image from "next/image";
 import { userAtom } from "@/store/user.atoms";
 import { atom, useAtom, useAtomValue, useSetAtom } from "jotai";
+import { BellIcon } from '@chakra-ui/icons'
+import kremaraLogo from '../assets/kremaraLogo.png'
 const Navbar = () => {
   const router = useRouter();
   const [profileDropdownSelected, setprofileDropdownSelected] = useState(false);
@@ -28,17 +30,21 @@ const Navbar = () => {
       <Box display="flex" gap="2rem">
         <Box
           cursor="pointer"
+          display="flex"
+          justifyContent="center"
+          alignItems="center"
           onClick={() => {
             router.push("/");
           }}
         >
-          Logo
+          <Image src={kremaraLogo} alt="" width={100} height={100} />
         </Box>
-        <Box display="flex" gap="1rem" cursor="pointer" fontSize="20px">
+        <Box display="flex" alignItems="center" gap="1rem" cursor="pointer" fontSize="20px">
           <Box
             onClick={() => {
               router.push("/");
             }}
+            color={router.pathname=='/'?"black.100":"black"}
           >
             Home
           </Box>
@@ -61,7 +67,9 @@ const Navbar = () => {
         </Box>
       </Box>
       <Box display="flex" gap="1rem" cursor="pointer">
-        <Box fontSize="20px">Notification</Box>
+        <Box fontSize="20px">
+          <BellIcon color="white"/>
+        </Box>
 
         {userData && (
           <Box

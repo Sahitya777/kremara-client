@@ -1,7 +1,7 @@
 export type Project={
     name:String,
     logo:String,
-    description:String
+    description:String,
 }
 
 export type tiers="UNRATED" | "IRON" | "BRONZE" | "SILVER" | "GOLD" | "PLATINUM" | "DIAMOND";

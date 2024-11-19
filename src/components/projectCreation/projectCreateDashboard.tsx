@@ -23,12 +23,26 @@ import { MYCONNECTORS } from "@/pages/_app";
 import { useAccount, useConnect } from "@starknet-react/core";
 import Link from "next/link";
 import { TypedData } from "starknet";
+import useBalanceOf from "@/Blockchain/hooks/useBalanceOf";
+import { tokenAddressMap } from "@/Blockchain/utils/addressesService";
 
 const ProjectCreateDashboard = () => {
     const [signedVerification, setsignedVerification] = useState(true)
     const [radioValue, setRadioValue] = useState('1')
     const [message, setMessage] = useState<any>('Hello, StarkNet!');
     const [signature, setSignature] = useState<any>(null);
+    interface assetB {
+      USDT: any
+      USDC: any
+      BTC: any
+      ETH: any
+      DAI: any
+    }
+    const walletBalances: assetB | any = {
+      USDT: useBalanceOf(tokenAddressMap['USDT']),
+      USDC: useBalanceOf(tokenAddressMap['USDC']),
+      STRK: useBalanceOf(tokenAddressMap['STRK']),
+    }
     const { starknetkitConnectModal: starknetkitConnectModal1 } =
     useStarknetkitConnectModal({
       modalMode: 'canAsk',

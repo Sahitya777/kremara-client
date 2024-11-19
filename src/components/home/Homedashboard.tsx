@@ -1,9 +1,9 @@
 import { Contributor, Project } from "@/interfaces/interface";
+import { keyframes } from "@emotion/react";
 import {
   Avatar,
   Box,
   Button,
-  keyframes,
   Table,
   Tbody,
   Td,
@@ -75,6 +75,17 @@ const Homedashboard = () => {
   100% { opacity: 1; transform: translateY(0); }
   
 `;
+
+  useEffect(()=>{
+    try {
+      const fetchTopContributors=async()=>{
+        
+      }
+      fetchTopContributors()
+    } catch (error) {
+      console.log(error,'err in fetching top contributors')
+    }
+  },[])
 
   useEffect(() => {
     try {
