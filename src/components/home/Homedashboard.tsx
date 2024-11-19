@@ -37,10 +37,21 @@ const Homedashboard = () => {
     },
   ];
   const [contributors, setcontributors] = useState<Contributor[]>([]);
-  const [recentActivity, setrecentActivity] = useState([]);
-  const [infoCodeUpdated, setinfoCodeUpdated] = useState(false)
+  const [recentActivity, setrecentActivity] = useState([
+    {
+      id: 1,
+      text: "A user has landed on the product with best intrest",
+      routeLink: "link",
+    },
+    {
+      id: 2,
+      text: "value",
+      routeLink: "link",
+    },
+  ]);
+  const [infoCodeUpdated, setinfoCodeUpdated] = useState(false);
   const router = useRouter();
-  const [userData,setUserData]=useAtom(userAtom)
+  const [userData, setUserData] = useAtom(userAtom);
   const scroll = keyframes`
   0% {
     transform: translateY(0);
@@ -65,53 +76,57 @@ const Homedashboard = () => {
   
 `;
 
-
-  useEffect(()=>{
+  useEffect(() => {
     try {
-      const userLoginToken=localStorage.getItem('userLoginCode')
-      if(userLoginToken && !userData){
-        console.log('entry')
-        const fetchUserData=async()=>{
-          const res=await axios.get(`${process.env.NEXT_PUBLIC_BACKEND_API}/user`,{
-            headers: {
-              "ngrok-skip-browser-warning": "69420",
-              Authorization:`Bearer ${userLoginToken}`
-            },
-          })
-          if(res?.data){
-            setUserData(res?.data?.data)
+      const userLoginToken = localStorage.getItem("userLoginCode");
+      if (userLoginToken && !userData) {
+        console.log("entry");
+        const fetchUserData = async () => {
+          const res = await axios.get(
+            `${process.env.NEXT_PUBLIC_BACKEND_API}/user`,
+            {
+              headers: {
+                "ngrok-skip-browser-warning": "69420",
+                Authorization: `Bearer ${userLoginToken}`,
+              },
+            }
+          );
+          if (res?.data) {
+            setUserData(res?.data?.data);
           }
-        }
-        fetchUserData()
+        };
+        fetchUserData();
       }
     } catch (error) {
-      console.log(error,"erro in fetching code")
+      console.log(error, "erro in fetching code");
     }
-  },[infoCodeUpdated])
+  }, [infoCodeUpdated]);
 
   useEffect(() => {
     try {
       if (router.query.code) {
-        const fetchuserInfo=async()=>{
-          const res=await axios.get(`${process.env.NEXT_PUBLIC_BACKEND_API}/auth/get-token?code=${router.query.code}`,          
+        const fetchuserInfo = async () => {
+          const res = await axios.get(
+            `${process.env.NEXT_PUBLIC_BACKEND_API}/auth/get-token?code=${router.query.code}`,
             {
-            headers: {
-              "ngrok-skip-browser-warning": "69420",
-            },
-          })
-          console.log(res?.data,"user ccheck sign in")
-          if(res?.data){
+              headers: {
+                "ngrok-skip-browser-warning": "69420",
+              },
+            }
+          );
+          console.log(res?.data, "user ccheck sign in");
+          if (res?.data) {
             localStorage.setItem("userLoginCode", res?.data?.token as string);
-            setinfoCodeUpdated(true)
+            setinfoCodeUpdated(true);
           }
-        }
-        const userLoginToken=localStorage.getItem('userLoginCode')
-        if(!userLoginToken &&!userData){
-          fetchuserInfo()
+        };
+        const userLoginToken = localStorage.getItem("userLoginCode");
+        if (!userLoginToken && !userData) {
+          fetchuserInfo();
         }
       }
     } catch (error) {
-      console.log(error,"error in generating code")
+      console.log(error, "error in generating code");
     }
   }, [router.query.code]);
 
@@ -260,76 +275,27 @@ const Homedashboard = () => {
               _hover={{ animationPlayState: "paused" }} // Pause on hover
             >
               {/* Individual text items styled and animated */}
-              <Text
-                width="100%"
-                bg="rgba(255, 255, 255, 0.1)"
-                p="0.5rem"
-                mb="0.5rem"
-                borderRadius="4px"
-                transition="background-color 0.3s"
-                _hover={{
-                  backgroundColor: "yellow.400", // Highlighted on hover
-                  color: "black",
-                }}
-              >
-                A new user has landed
-              </Text>
-              <Text
-                width="100%"
-                bg="rgba(255, 255, 255, 0.1)"
-                p="0.5rem"
-                mb="0.5rem"
-                borderRadius="4px"
-                transition="background-color 0.3s"
-                _hover={{
-                  backgroundColor: "yellow.400", // Highlighted on hover
-                  color: "black",
-                }}
-              >
-                This user contributed to the project
-              </Text>
-              <Text
-                width="100%"
-                bg="rgba(255, 255, 255, 0.1)"
-                p="0.5rem"
-                mb="0.5rem"
-                borderRadius="4px"
-                transition="background-color 0.3s"
-                _hover={{
-                  backgroundColor: "yellow.400", // Highlighted on hover
-                  color: "black",
-                }}
-              >
-                Someone got rewarded
-              </Text>
-              <Text
-                width="100%"
-                bg="rgba(255, 255, 255, 0.1)"
-                p="0.5rem"
-                mb="0.5rem"
-                borderRadius="4px"
-                transition="background-color 0.3s"
-                _hover={{
-                  backgroundColor: "yellow.400", // Highlighted on hover
-                  color: "black",
-                }}
-              >
-                A new project has landed
-              </Text>
-              <Text
-                width="100%"
-                bg="rgba(255, 255, 255, 0.1)"
-                p="0.5rem"
-                mb="0.5rem"
-                borderRadius="4px"
-                transition="background-color 0.3s"
-                _hover={{
-                  backgroundColor: "yellow.400", // Highlighted on hover
-                  color: "black",
-                }}
-              >
-                New tasks are available
-              </Text>
+              {recentActivity.map((activity, index) => (
+                <Box
+                  key={index}
+                  width="100%"
+                  bg="rgba(255, 255, 255, 0.1)"
+                  p="0.5rem"
+                  mb="0.5rem"
+                  borderRadius="4px"
+                  overflow="hidden"
+                  textOverflow="ellipsis"
+                  whiteSpace="nowrap"
+                  display="block"
+                  transition="background-color 0.3s"
+                  _hover={{
+                    backgroundColor: "yellow.400", // Highlighted on hover
+                    color: "black",
+                  }}
+                >
+                  {activity?.text}
+                </Box>
+              ))}
               {/* Add more Text elements as needed */}
             </Box>
           </Box>

@@ -1,4 +1,8 @@
 import React, { useState } from "react";
+import Image from "next/image";
+import googleLogo from '../../assets/googleLogo.png'
+import githubLogo from '../../assets/github-logo.png'
+import twitterLogo from '../../assets/twitterLogo.png'
 import {
   Button,
   Modal,
@@ -77,23 +81,32 @@ const SignInModal = ({ buttonText, ...restProps }: any) => {
                   // signIn('google')
                   router.push(`${process.env.NEXT_PUBLIC_BACKEND_API}/auth/login`)
                 }}>
-                    <Text>
-                      Sign in with Google
-                    </Text>
+                  <Box display='flex' gap="0.5rem">
+                    <Image src={googleLogo} alt="" width={24} height={24}/>
+                      <Text>
+                        Sign in with Google
+                      </Text>
+                  </Box>
                   </Box>
                   <Box display="flex" justifyContent="space-around" cursor="pointer" border="1px solid grey" borderRadius="6px" padding="8px" onClick={()=>{
                     signIn('github')
                   }}>
-                    <Text>
-                      Sign in with Github
-                    </Text>
+                  <Box display='flex' gap="0.5rem">
+                    <Image src={githubLogo} alt="" width={24} height={24}/>
+                      <Text>
+                        Sign in with Github
+                      </Text>
+                  </Box>
                   </Box>
                   <Box display="flex" justifyContent="space-around" cursor="pointer" border="1px solid grey" borderRadius="6px" padding="8px" onClick={()=>{
                     signIn('twitter')
                   }}>
-                    <Text>
-                      Sign in with Twitter
-                    </Text>
+                  <Box display='flex' gap="0.5rem">
+                    <Image src={twitterLogo} alt="" width={24} height={24}/>
+                      <Text>
+                        Sign in with Twitter
+                      </Text>
+                  </Box>
                   </Box>
                 </Box>
             </ModalBody>
