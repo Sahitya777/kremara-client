@@ -16,6 +16,7 @@ import { ArgentMobileConnector } from "starknetkit/argentMobile";
 import { InjectedConnector } from "starknetkit/injected";
 import { Provider } from "jotai";
 import { MY_STORE } from "@/store";
+import Layout from "@/toasts";
 export const theme = extendTheme({
   components: {
     Tabs: {
@@ -98,14 +99,16 @@ export default function App({ Component, pageProps }: AppProps) {
       >
         <SessionProvider>
           <ChakraProvider theme={theme}>
-            <StarknetConfig
-              chains={[mainnet, sepolia]}
-              provider={publicProvider()}
-              connectors={connectors}
-              explorer={voyager}
-            >
-              <Component {...pageProps} />
-            </StarknetConfig>
+            <Layout>
+              <StarknetConfig
+                chains={[mainnet, sepolia]}
+                provider={publicProvider()}
+                connectors={connectors}
+                explorer={voyager}
+              >
+                <Component {...pageProps} />
+              </StarknetConfig>
+            </Layout>
           </ChakraProvider>
         </SessionProvider>
       </GoogleOAuthProvider>

@@ -1,23 +1,137 @@
-import { Box, Text, Input, Button, Avatar, Divider } from "@chakra-ui/react";
+import {
+  Box,
+  Text,
+  Input,
+  Button,
+  Avatar,
+  Divider,
+  Select,
+} from "@chakra-ui/react";
 import Image from "next/image";
 import { useRouter } from "next/router";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import CreateTaskModal from "../Modals/CreateTaskModal";
 import { useStarknetkitConnectModal } from "starknetkit";
 import { MYCONNECTORS } from "@/pages/_app";
 import { useAccount, useConnect } from "@starknet-react/core";
+import { Token, userType } from "@/interfaces/interface";
+import useStakeRequest from "@/Blockchain/hooks/useStake";
+import { toast } from "react-toastify";
+import useBalanceOf from "@/Blockchain/hooks/useBalanceOf";
+import {
+  tokenAddressMap,
+  tokenDecimalsMap,
+} from "@/Blockchain/utils/addressesService";
+import { parseAmount } from "@/Blockchain/utils/utils";
+import { uint256 } from "starknet";
+import ArrowUp from "@/assets/icons/ArrowUp";
+import DropdownUp from "@/assets/icons/ArrowDown";
+import BTCLogo from "@/assets/icons/btc";
+import DAILogo from "@/assets/icons/dai";
+import ETHLogo from "@/assets/icons/eth";
+import STRKLogo from "@/assets/icons/strk";
+import USDCLogo from "@/assets/icons/usdc";
+import USDTLogo from "@/assets/icons/usdt";
 
 const ProjectDashboard = () => {
   const router = useRouter();
-  const [projectTasks, setprojectTasks] = useState([0]);
-  const [userType, setuserType] = useState("Moderator");
-  const [projectAmountStaked, setprojectAmountStaked] = useState<Boolean>(true);
+  const [projectTasks, setprojectTasks] = useState([]);
+  const [userType, setuserType] = useState<userType>("Moderator");
+  const [tokenSelectedDropdown, settokenSelectedDropdown] =
+    useState<Boolean>(false);
+  const coins: Token[] = ["BTC", "USDT", "USDC", "ETH", "STRK"];
+
+  const {
+    token,
+    settoken,
+    tokenAmount,
+    settokenAmount,
+    dataStakeRequest,
+    errorStakeRequest,
+    resetStakeRequest,
+    writeStakeRequest,
+    writeAsyncStakeRequest,
+    isErrorStakeRequest,
+    isIdleStakeRequest,
+    isSuccessStakeRequest,
+    statusStakeRequest,
+  } = useStakeRequest();
+
+  const handleTransaction = async () => {
+    try {
+      const res = await writeAsyncStakeRequest();
+      console.log(res, "res");
+    } catch (error) {
+      toast.error("Transaction Declined", {
+        position: "bottom-right",
+        autoClose: false,
+      });
+      console.log(error, "err in transaction");
+    }
+  };
+
+  const getCoin = (CoinName: string) => {
+    switch (CoinName) {
+      case "BTC":
+        return <BTCLogo height={"16px"} width={"16px"} />;
+      case "USDC":
+        return <USDCLogo height={"16px"} width={"16px"} />;
+      case "USDT":
+        return <USDTLogo height={"16px"} width={"16px"} />;
+      case "ETH":
+        return <ETHLogo height={"16px"} width={"16px"} />;
+      case "DAI":
+        return <DAILogo height={"16px"} width={"16px"} />;
+      case "STRK":
+        return <STRKLogo height={"16px"} width={"16px"} />;
+      default:
+        break;
+    }
+  };
+
+  const [projectAmountStaked, setprojectAmountStaked] =
+    useState<Boolean>(false);
   const { starknetkitConnectModal: starknetkitConnectModal1 } =
     useStarknetkitConnectModal({
       modalMode: "canAsk",
       modalTheme: "dark",
       connectors: MYCONNECTORS,
     });
+  interface assetB {
+    USDT: any;
+    USDC: any;
+    BTC: any;
+    ETH: any;
+    DAI: any;
+  }
+  const walletBalances: assetB | any = {
+    USDT: useBalanceOf(tokenAddressMap["USDT"]),
+    USDC: useBalanceOf(tokenAddressMap["USDC"]),
+    STRK: useBalanceOf(tokenAddressMap["STRK"]),
+  };
+  const [walletBalance, setwalletBalance] = useState(
+    walletBalances[token]?.statusBalanceOf === "success"
+      ? parseAmount(
+          String(
+            uint256.uint256ToBN(walletBalances[token]?.dataBalanceOf?.balance)
+          ),
+          tokenDecimalsMap[token]
+        )
+      : 0
+  );
+  useEffect(() => {
+    setwalletBalance(
+      walletBalances[token]?.statusBalanceOf === "success"
+        ? parseAmount(
+            String(
+              uint256.uint256ToBN(walletBalances[token]?.dataBalanceOf?.balance)
+            ),
+            tokenDecimalsMap[token]
+          )
+        : 0
+    );
+    ////console.log("supply modal status wallet balance",walletBalances[coin?.name]?.statusBalanceOf)
+  }, [walletBalances[token]?.statusBalanceOf]);
   const { address, connector } = useAccount();
   const { connect, connectors } = useConnect();
   const connectWallet = async () => {
@@ -89,7 +203,7 @@ const ProjectDashboard = () => {
           <Box bg="grey" padding="2rem" borderRadius="6px" minH="300px">
             <Text fontSize="24px">Tasks</Text>
             <Text>One liner for dessc</Text>
-            {userType === "normal" ? (
+            {userType === "Normal" ? (
               <Box
                 display="flex"
                 justifyContent="center"
@@ -103,7 +217,7 @@ const ProjectDashboard = () => {
                 display="flex"
                 justifyContent="center"
                 alignItems="center"
-                mt="3rem"
+                mt="1rem"
               >
                 {projectAmountStaked ? (
                   <CreateTaskModal buttonText="Create Task" />
@@ -114,17 +228,74 @@ const ProjectDashboard = () => {
                     justifyContent="center"
                     gap="1rem"
                   >
-                    <Text>{address}</Text>
                     {!address && (
-                      <Button
-                        onClick={() => {
-                          connectWallet();
-                        }}
+                      <Box
+                        display="flex"
+                        flexDirection="column"
+                        justifyContent="center"
+                        gap="1rem"
                       >
-                        Connect Wallet
-                      </Button>
+                        <Text>
+                          For creating tasks you need to stake $500 worth of any
+                          given token for security reasons
+                        </Text>
+                        <Button
+                          onClick={() => {
+                            connectWallet();
+                          }}
+                        >
+                          Connect Wallet
+                        </Button>
+                      </Box>
                     )}
-                    {address && <Button>Stake Amount</Button>}
+                    {address && (
+                      <Box
+                        display="flex"
+                        flexDirection="column"
+                        gap="1rem"
+                        justifyContent="center"
+                      >
+                        <Text>
+                          For creating tasks you need to stake $500 worth of any
+                          given token for security reasons
+                        </Text>
+                        <Text>{address}</Text>
+                        <Box display="flex" flexDirection="column">
+                          <Box display="flex" justifyContent="space-between">
+                            <Text>Stake Token</Text>
+                            <Text>
+                              Balance: {walletBalance} {token}
+                            </Text>
+                          </Box>
+                          <Box
+                            display="flex"
+                            border="1px solid var(--stroke-of-30, rgba(103, 109, 154, 0.30))"
+                            justifyContent="space-between"
+                            py="2"
+                            pl="3"
+                            pr="3"
+                            mb="1rem"
+                            mt="0.3rem"
+                            borderRadius="md"
+                            className="navbar"
+                            cursor="pointer"
+                          >
+                            <Select placeholder={token} value={token}>
+                              {coins.map((coin, index) => (
+                                <option key={index}>{coin}</option>
+                              ))}
+                            </Select>
+                          </Box>
+                        </Box>
+                        <Button
+                          onClick={() => {
+                            handleTransaction();
+                          }}
+                        >
+                          Stake Amount
+                        </Button>
+                      </Box>
+                    )}
                   </Box>
                 )}
               </Box>

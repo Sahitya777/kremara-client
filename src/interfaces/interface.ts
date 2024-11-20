@@ -8,6 +8,8 @@ export type tiers="UNRATED" | "IRON" | "BRONZE" | "SILVER" | "GOLD" | "PLATINUM"
 
 export type userType ="Moderator" | "Normal" | "Owner" | "RougeDevs-Core" | "RougeDevs-Support"
 
+export type Token = "BTC" | "ETH" | "DAI" | "USDC" | "USDT" | "STRK";
+
 export type Contributor={
     name:String,
     points:number,

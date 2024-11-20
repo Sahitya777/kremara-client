@@ -156,17 +156,6 @@ const ProjectCreateDashboard = () => {
             <Textarea placeholder="Enter your social media handles (e.g., Twitter, Instagram)" />
           </FormControl>
 
-          <FormControl isRequired>
-            <FormLabel>Category</FormLabel>
-            <Select>
-              <option>Graphic Design</option>
-              <option>Web Design</option>
-              <option>UI/UX</option>
-              <option>Illustrations</option>
-              {/* Add more options as needed */}
-            </Select>
-          </FormControl>
-
           <FormControl>
             <FormLabel>Tools and Technologies Used</FormLabel>
             <Textarea placeholder="List the tools, software, and technologies used in your project" />
