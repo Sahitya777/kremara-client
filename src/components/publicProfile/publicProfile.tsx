@@ -51,14 +51,14 @@ const PublicProfile = () => {
                     }
                     return `color-github-${value.count}`;
                     }}
-                    tooltipDataAttrs={(value: any) => ({
-                    'data-tip': `${value.date} has count: ${value.count}`,
-                    })}
+                    // tooltipDataAttrs={(value: any) => ({
+                    // 'data-tip': `${value.date} has count: ${value.count}`,
+                    // })}
                     showWeekdayLabels={true}
                     onClick={(value) =>
                     alert(`Clicked on value with count: ${value?.count}`)
                     }
-                    transformDayElement={(element, value) => (
+                    transformDayElement={(element:any, value) => (
                     <Tooltip
                         label={`Date: ${value?.date} - Count: ${value?.count}`}
                         aria-label="contribution-tooltip"

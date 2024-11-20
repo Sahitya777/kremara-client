@@ -9,12 +9,15 @@ import { userAtom } from "@/store/user.atoms";
 import { atom, useAtom, useAtomValue, useSetAtom } from "jotai";
 import { BellIcon } from '@chakra-ui/icons'
 import kremaraLogo from '../assets/kremaraLogo.png'
+import { Notification } from "@/interfaces/interface";
 const Navbar = () => {
   const router = useRouter();
   const [profileDropdownSelected, setprofileDropdownSelected] = useState(false);
   const userData = useAtomValue<any>(userAtom);
   const [loading, setloading] = useState(true);
   const setUserData = useSetAtom(userAtom);
+  const [notificationCenter, setnotificationCenter] = useState<boolean>(false)
+  const [notifications, setnotifications] = useState<Notification[]>([])
   //   {
   //     "name": "Sahitya Nijhawan",
   //     "email": "sahityanijhawan@gmail.com",
@@ -66,10 +69,40 @@ const Navbar = () => {
           </Box>
         </Box>
       </Box>
-      <Box display="flex" gap="1rem" cursor="pointer">
-        <Box fontSize="20px">
+      <Box display="flex" gap="1rem">
+        <Box fontSize="20px" cursor="pointer" onClick={()=>{
+          if(notifications.length>0){
+            setnotificationCenter(!notificationCenter)
+          }
+        }}>
           <BellIcon color="white"/>
         </Box>
+        {notificationCenter && (
+            <Box
+              width="200px"
+              position="fixed"
+              right="8"
+              zIndex={100}
+              top="16"
+              display="flex"
+              justifyContent="center"
+              flexDirection="column"
+              gap="18px"
+              padding="0.7rem 1rem"
+              boxShadow="1px 2px 8px rgba(0, 0, 0, 0.5), 4px 8px 24px #010409"
+              borderRadius="6px"
+              background="red"
+              border="1px solid rgba(103, 109, 154, 0.30)"
+              className="dropdown-container"
+              userSelect="none"
+            >
+              {notifications.map((notification:Notification,index:number)=>(
+                <Box key={index}>
+                  {notification.text}
+                </Box>
+              ))}
+            </Box>
+          )}
 
         {userData && (
           <Box

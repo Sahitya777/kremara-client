@@ -32,14 +32,18 @@ import ETHLogo from "@/assets/icons/eth";
 import STRKLogo from "@/assets/icons/strk";
 import USDCLogo from "@/assets/icons/usdc";
 import USDTLogo from "@/assets/icons/usdt";
+import { useAtom, useAtomValue } from "jotai";
+import { userAtom } from "@/store/user.atoms";
 
 const ProjectDashboard = () => {
   const router = useRouter();
   const [projectTasks, setprojectTasks] = useState([]);
   const [userType, setuserType] = useState<userType>("Moderator");
+  const userData = useAtomValue<any>(userAtom);
+  const [projectDetails, setprojectDetails] = useState<any>()
   const [tokenSelectedDropdown, settokenSelectedDropdown] =
     useState<Boolean>(false);
-  const coins: Token[] = ["BTC", "USDT", "USDC", "ETH", "STRK"];
+  const coins: Token[] = ["USDT", "USDC"];
 
   const {
     token,
@@ -107,7 +111,6 @@ const ProjectDashboard = () => {
   const walletBalances: assetB | any = {
     USDT: useBalanceOf(tokenAddressMap["USDT"]),
     USDC: useBalanceOf(tokenAddressMap["USDC"]),
-    STRK: useBalanceOf(tokenAddressMap["STRK"]),
   };
   const [walletBalance, setwalletBalance] = useState(
     walletBalances[token]?.statusBalanceOf === "success"
@@ -131,7 +134,7 @@ const ProjectDashboard = () => {
         : 0
     );
     ////console.log("supply modal status wallet balance",walletBalances[coin?.name]?.statusBalanceOf)
-  }, [walletBalances[token]?.statusBalanceOf]);
+  }, [walletBalances[token]?.statusBalanceOf,token]);
   const { address, connector } = useAccount();
   const { connect, connectors } = useConnect();
   const connectWallet = async () => {
@@ -150,10 +153,25 @@ const ProjectDashboard = () => {
       }
     }
   };
+
+  useEffect(()=>{
+    try {
+      const fetchProjectDetails=async()=>{
+
+      }
+      fetchProjectDetails() 
+    } catch (error) {
+      console.log(error,'err in fetching details for project')
+    }
+  },[])
+
   return (
     <Box display="flex" padding="32px" gap="2rem" width="100%">
       <Box bg="grey" padding="3rem" borderRadius="6px" width="15%">
         <Text isTruncated>Left dashboard</Text>
+        {projectTasks.length>0 && (userType=='Moderator' || userType==='Owner')&& <Box mt="0.5rem">
+          <CreateTaskModal buttonText="Create Task" />
+        </Box>}
       </Box>
       <Box display="flex" flexDirection="column" gap="1rem" width="60%">
         <Box>
@@ -280,7 +298,9 @@ const ProjectDashboard = () => {
                             className="navbar"
                             cursor="pointer"
                           >
-                            <Select placeholder={token} value={token}>
+                            <Select value={token} onChange={(e)=>{
+                              settoken(e.target.value)
+                            }}>
                               {coins.map((coin, index) => (
                                 <option key={index}>{coin}</option>
                               ))}
@@ -291,6 +311,7 @@ const ProjectDashboard = () => {
                           onClick={() => {
                             handleTransaction();
                           }}
+                          isDisabled={walletBalance<500}
                         >
                           Stake Amount
                         </Button>
