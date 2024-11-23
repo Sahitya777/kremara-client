@@ -1,7 +1,7 @@
 export type Project={
-    name:String,
-    logo:String,
-    description:String,
+    name:string,
+    logo:string,
+    description:string,
 }
 
 export type tiers="UNRATED" | "IRON" | "BRONZE" | "SILVER" | "GOLD" | "PLATINUM" | "DIAMOND";
@@ -17,11 +17,12 @@ export type Notification={
 export type Token = "BTC" | "ETH" | "DAI" | "USDC" | "USDT" | "STRK";
 
 export type Contributor={
-    name:String,
+    name:string,
     points:number,
     rank:number,
     tier:tiers,
-    profile:string
+    profile:string,
+    profileIcon:string
 }
 
 export type Task={

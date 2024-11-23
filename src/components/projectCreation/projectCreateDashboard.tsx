@@ -33,12 +33,15 @@ import { tokenAddressMap } from "@/Blockchain/utils/addressesService";
 import { VerifySignature } from "../verificationSigning";
 import { toast } from "react-toastify";
 import STRKLogo from "@/assets/icons/strk";
+import { useAtomValue } from "jotai";
+import { userAtom } from "@/store/user.atoms";
 
 const ProjectCreateDashboard = () => {
   const [message, setMessage] = useState<any>("Hello, StarkNet!");
   const [signature, setSignature] = useState<any>(null);
 
   const [users, setUsers] = useState([]); // All users fetched from the backend
+  const user=useAtomValue(userAtom)
   const [searchTerm, setSearchTerm] = useState(""); // User's search input
   const [filteredUsers, setFilteredUsers] = useState<any>([]); // Filtered users based on search
   const [moderators, setModerators] = useState<any>([]);
@@ -66,6 +69,35 @@ const ProjectCreateDashboard = () => {
     verificationDetails: null,
     checksAgreed: false,
   });
+
+  const [suggestionScreenshotFilename, setSuggestionScreenshotFilename] =
+  useState("");
+const [suggestionUrl, setSuggestionUrl] = useState("");
+  const handleImageUploadSugegstion = (e: any) => {
+    const file = e.target.files[0];
+
+    if (file) {
+      // setSuggestionScreenshotFilename(file.name);
+      // Read the selected image file as a base64 string
+      const reader = new FileReader();
+      reader.onload = (event) => {
+        if (event?.target?.result) {
+          const { name, value, type, checked, files } = e.target;
+          setFormData((prevData) => ({
+            ...prevData,
+            [name]:
+              type === "checkbox" ? checked : type === "file" ? event?.target?.result as string : value,
+          }))
+          // setSuggestionUrl(event.target.result as string);
+
+          //    //console.log("base64:-",event.target.result);
+          ////console.log("sugg  url(upload):-=",event.target.result)
+        }
+      };
+      reader.readAsDataURL(file);
+    } else {
+    }
+  };
   // console.log(formData,'data')
 
   const isFormValid = () => {
@@ -315,7 +347,7 @@ const ProjectCreateDashboard = () => {
               accept="image/*"
               placeholder="Image files only (e.g., JPG, PNG)"
               name="projectThumbnail"
-              onChange={handleInputChange}
+              onChange={handleImageUploadSugegstion}
             />
           </FormControl>
 

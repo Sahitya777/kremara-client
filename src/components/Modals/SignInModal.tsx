@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import Image from "next/image";
-import googleLogo from '../../assets/googleLogo.png'
-import githubLogo from '../../assets/github-logo.png'
-import twitterLogo from '../../assets/twitterLogo.png'
+import googleLogo from "../../assets/googleLogo.png";
+import githubLogo from "../../assets/github-logo.png";
+import twitterLogo from "../../assets/twitterLogo.png";
 import {
   Button,
   Modal,
@@ -36,11 +36,12 @@ const SignInModal = ({ buttonText, ...restProps }: any) => {
   const [sliderValue, setSliderValue] = useState(0);
   const [buttonId, setButtonId] = useState(0);
 
-  const fetchCall=async()=>{
-    const res=await axios.get('https://a4c9-103-215-237-73.ngrok-free.app/auth/login');
-  }
-  const router=useRouter();
-
+  const fetchCall = async () => {
+    const res = await axios.get(
+      "https://a4c9-103-215-237-73.ngrok-free.app/auth/login"
+    );
+  };
+  const router = useRouter();
 
   return (
     <div>
@@ -54,7 +55,7 @@ const SignInModal = ({ buttonText, ...restProps }: any) => {
           size={{ width: "700px", height: "120px" }}
           isCentered
         >
-          <ModalOverlay bg="rgba(244, 242, 255, 0.5);" mt="4.5rem" />
+          <ModalOverlay bg="rgba(244, 242, 255, 0.5);"/>
           <ModalContent
             color="white"
             borderRadius="md"
@@ -72,43 +73,69 @@ const SignInModal = ({ buttonText, ...restProps }: any) => {
               color="black"
               textAlign="center"
             >
-              Welcome 
+              Welcome
             </ModalHeader>
             <ModalCloseButton mt="1rem" mr="1rem" />
             <ModalBody>
-                <Box color="black" display="flex" flexDirection="column" gap="1rem" mb="1rem">
-                <Box display="flex" justifyContent="space-around" cursor="pointer" border="1px solid grey" borderRadius="6px" padding="8px" onClick={()=>{
-                  // signIn('google')
-                  router.push(`${process.env.NEXT_PUBLIC_BACKEND_API}/auth/login`)
-                }}>
-                  <Box display='flex' gap="0.5rem">
-                    <Image src={googleLogo} alt="" width={24} height={24}/>
-                      <Text>
-                        Sign in with Google
-                      </Text>
-                  </Box>
-                  </Box>
-                  <Box display="flex" justifyContent="space-around" cursor="pointer" border="1px solid grey" borderRadius="6px" padding="8px" onClick={()=>{
-                    signIn('github')
-                  }}>
-                  <Box display='flex' gap="0.5rem">
-                    <Image src={githubLogo} alt="" width={24} height={24}/>
-                      <Text>
-                        Sign in with Github
-                      </Text>
-                  </Box>
-                  </Box>
-                  <Box display="flex" justifyContent="space-around" cursor="pointer" border="1px solid grey" borderRadius="6px" padding="8px" onClick={()=>{
-                    signIn('twitter')
-                  }}>
-                  <Box display='flex' gap="0.5rem">
-                    <Image src={twitterLogo} alt="" width={24} height={24}/>
-                      <Text>
-                        Sign in with Twitter
-                      </Text>
-                  </Box>
+              <Box
+                color="black"
+                display="flex"
+                flexDirection="column"
+                gap="1rem"
+                mb="1rem"
+              >
+                <Box
+                  display="flex"
+                  justifyContent="space-around"
+                  cursor="pointer"
+                  border="1px solid grey"
+                  borderRadius="6px"
+                  padding="8px"
+                  onClick={() => {
+                    // signIn('google')
+                    router.push(
+                      `${process.env.NEXT_PUBLIC_BACKEND_API}/auth/login`
+                    );
+                  }}
+                >
+                  <Box display="flex" gap="0.5rem">
+                    <Image src={googleLogo} alt="" width={24} height={24} />
+                    <Text>Sign in with Google</Text>
                   </Box>
                 </Box>
+                <Box
+                  display="flex"
+                  justifyContent="space-around"
+                  cursor="not-allowed"
+                  border="1px solid grey"
+                  borderRadius="6px"
+                  padding="8px"
+                  opacity={0.5}
+                  // filter="blur(1px)"
+                  pointerEvents="none"
+                >
+                  <Box display="flex" gap="0.5rem">
+                    <Image src={githubLogo} alt="" width={24} height={24} />
+                    <Text>Sign in with Github (Coming soon)</Text>
+                  </Box>
+                </Box>
+                <Box
+                  display="flex"
+                  justifyContent="space-around"
+                  cursor="not-allowed"
+                  border="1px solid grey"
+                  borderRadius="6px"
+                  padding="8px"
+                  opacity={0.5}
+                  // filter="blur(1px)"
+                  pointerEvents="none"
+                >
+                  <Box display="flex" gap="0.5rem">
+                    <Image src={twitterLogo} alt="" width={24} height={24} />
+                    <Text>Sign in with Twitter (Coming Soon)</Text>
+                  </Box>
+                </Box>
+              </Box>
             </ModalBody>
           </ModalContent>
         </Modal>

@@ -6,6 +6,7 @@ import {
   Avatar,
   Divider,
   Select,
+  AvatarGroup,
 } from "@chakra-ui/react";
 import Image from "next/image";
 import { useRouter } from "next/router";
@@ -14,7 +15,7 @@ import CreateTaskModal from "../Modals/CreateTaskModal";
 import { useStarknetkitConnectModal } from "starknetkit";
 import { MYCONNECTORS } from "@/pages/_app";
 import { useAccount, useConnect, useDisconnect } from "@starknet-react/core";
-import { Token, userType } from "@/interfaces/interface";
+import { Contributor, Token, userType } from "@/interfaces/interface";
 import useStakeRequest from "@/Blockchain/hooks/useStake";
 import { toast } from "react-toastify";
 import useBalanceOf from "@/Blockchain/hooks/useBalanceOf";
@@ -40,7 +41,10 @@ const ProjectDashboard = () => {
   const [projectTasks, setprojectTasks] = useState([]);
   const [userType, setuserType] = useState<userType>("Moderator");
   const userData = useAtomValue<any>(userAtom);
-  const [projectDetails, setprojectDetails] = useState<any>()
+  const [projectDetails, setprojectDetails] = useState<any>({
+    moderators:["Hello","Kingshit"]
+  });
+  const [projectContributors, setprojectContributors] = useState<Contributor[]>([])
   const [tokenSelectedDropdown, settokenSelectedDropdown] =
     useState<Boolean>(false);
   const coins: Token[] = ["USDT", "USDC"];
@@ -94,7 +98,7 @@ const ProjectDashboard = () => {
   };
 
   const [projectAmountStaked, setprojectAmountStaked] =
-    useState<Boolean>(false);
+    useState<Boolean>(true);
   const { starknetkitConnectModal: starknetkitConnectModal1 } =
     useStarknetkitConnectModal({
       modalMode: "canAsk",
@@ -134,10 +138,10 @@ const ProjectDashboard = () => {
         : 0
     );
     ////console.log("supply modal status wallet balance",walletBalances[coin?.name]?.statusBalanceOf)
-  }, [walletBalances[token]?.statusBalanceOf,token]);
+  }, [walletBalances[token]?.statusBalanceOf, token]);
   const { address, connector } = useAccount();
   const { connect, connectors } = useConnect();
-  const {disconnectAsync}=useDisconnect()
+  const { disconnectAsync } = useDisconnect();
   const connectWallet = async () => {
     try {
       const result = await starknetkitConnectModal1();
@@ -155,41 +159,51 @@ const ProjectDashboard = () => {
     }
   };
 
-  useEffect(()=>{
+  useEffect(() => {
     try {
-      const fetchProjectDetails=async()=>{
-
-      }
-      fetchProjectDetails() 
+      const fetchProjectDetails = async () => {};
+      fetchProjectDetails();
     } catch (error) {
-      console.log(error,'err in fetching details for project')
+      console.log(error, "err in fetching details for project");
     }
-  },[])
+  }, []);
 
   return (
     <Box display="flex" padding="32px" gap="2rem" width="100%">
       <Box bg="grey" padding="3rem" borderRadius="6px" width="15%">
         <Text isTruncated>Left dashboard</Text>
-        {projectTasks.length>0 && (userType=='Moderator' || userType==='Owner')&& <Box mt="0.5rem">
-          <CreateTaskModal buttonText="Create Task" />
-        </Box>}
+        {projectTasks.length > 0 &&
+          (userType == "Moderator" || userType === "Owner") && (
+            <Box mt="0.5rem">
+              <CreateTaskModal buttonText="Create Task" />
+            </Box>
+          )}
       </Box>
       <Box display="flex" flexDirection="column" gap="1rem" width="60%">
         <Box>
           <Text fontSize="28px">{router.query.index}</Text>
         </Box>
         <Box bg="grey" padding="2rem" borderRadius="6px">
-          <Box display="flex" gap="2rem">
+          <Box display="flex" gap="1rem">
             <Avatar name="Dan Abrahmov" src="https://bit.ly/dan-abramov" />
             <Box>
-              <Box>{router.query.index}</Box>
+              <Box fontSize="18px" fontWeight="700">{router.query.index}</Box>
               <Box display="flex" gap="1rem">
-                tags
+              <Box>2-3 line description</Box>
               </Box>
             </Box>
           </Box>
-          <Box mt="1rem" bg="grey">
-            <Box>2-3 line description</Box>
+          <Box mt="1rem" bg="grey" ml="4rem">
+          {projectDetails?.toolsAndTech &&<Box>
+          <Text>Languages</Text>
+          <Box display="flex" mt="0.5rem" gap="0.5rem" alignItems="center">
+            {projectDetails?.toolsAndTech.split(",").map((toolsAndTech:string,index:number)=>(
+              <Text key={index}>
+                {toolsAndTech}
+              </Text>
+            ))}
+          </Box>
+        </Box>}
           </Box>
         </Box>
         {projectTasks.map((projectTask, index) => (
@@ -278,21 +292,28 @@ const ProjectDashboard = () => {
                           For creating tasks you need to stake $500 worth of any
                           given token for security reasons
                         </Text>
-                        <Box display='flex' gap="0.4rem" alignItems="center">
-                          <Text display="flex" alignItems="center" gap='0.2rem' border="1px solid black" borderRadius="6px" padding="8px">
-                            <STRKLogo width={16} height={16}/>
+                        <Box display="flex" gap="0.4rem" alignItems="center">
+                          <Text
+                            display="flex"
+                            alignItems="center"
+                            gap="0.2rem"
+                            border="1px solid black"
+                            borderRadius="6px"
+                            padding="8px"
+                          >
+                            <STRKLogo width={16} height={16} />
+                            {address.substring(0, 3)}...
                             {address.substring(
-                          0,
-                          3
-                        )}...{address.substring(
-                          address.length - 9,
-                          address.length
-                        )}
+                              address.length - 9,
+                              address.length
+                            )}
                           </Text>
-                          <Button onClick={()=>{
-                            disconnectAsync()
-                          }}>
-                              Disconnect
+                          <Button
+                            onClick={() => {
+                              disconnectAsync();
+                            }}
+                          >
+                            Disconnect
                           </Button>
                         </Box>
                         <Box display="flex" flexDirection="column">
@@ -315,9 +336,12 @@ const ProjectDashboard = () => {
                             className="navbar"
                             cursor="pointer"
                           >
-                            <Select value={token} onChange={(e)=>{
-                              settoken(e.target.value)
-                            }}>
+                            <Select
+                              value={token}
+                              onChange={(e) => {
+                                settoken(e.target.value);
+                              }}
+                            >
                               {coins.map((coin, index) => (
                                 <option key={index}>{coin}</option>
                               ))}
@@ -328,7 +352,7 @@ const ProjectDashboard = () => {
                           onClick={() => {
                             handleTransaction();
                           }}
-                          isDisabled={walletBalance<500}
+                          isDisabled={walletBalance < 500}
                         >
                           Stake Amount
                         </Button>
@@ -343,28 +367,38 @@ const ProjectDashboard = () => {
       </Box>
       <Box bg="grey" borderRadius="6px" width="20%" padding="2rem" minH="500px">
         <Box display="flex">
-          <Text isTruncated>Project Details</Text>
+          <Text isTruncated fontSize="18px" fontWeight="700">Project Details</Text>
         </Box>
-        <Box mt="1rem">
-          <Text>Moderator</Text>
+       {projectDetails?.moderators.length>0 && <Box mt="1rem">
+          <Text>Moderators</Text>
           <Box display="flex" mt="0.5rem" gap="0.5rem" alignItems="center">
-            <Avatar size="sm" />
-            <Text>name</Text>
+          <AvatarGroup size="sm" max={3}>
+              {projectDetails?.moderators.map((moderator:any,index:number)=>(
+                <Avatar key={index} name={moderator.name} cursor="pointer" src={moderator.profileIcon}/>
+              ))}
+          </AvatarGroup>
           </Box>
-        </Box>
-        <Box mt="1rem">
+        </Box>}
+        {projectContributors.length>0&&<Box mt="1rem">
           <Text>Contributors</Text>
           <Box display="flex" mt="0.5rem" gap="0.5rem" alignItems="center">
-            <Avatar size="sm" />
-            <Text>name</Text>
+            <AvatarGroup size="sm" max={3}>
+              {projectContributors.map((contriButor:Contributor,index:number)=>(
+                <Avatar key={index} name={contriButor.name} cursor="pointer" src={contriButor.profileIcon}/>
+              ))}
+            </AvatarGroup>
           </Box>
-        </Box>
-        <Box mt="1rem">
+        </Box>}
+       {projectDetails?.toolsAndTech &&<Box mt="1rem">
           <Text>Languages</Text>
           <Box display="flex" mt="0.5rem" gap="0.5rem" alignItems="center">
-            <Text>Typescript, Cairo, Next js</Text>
+            {projectDetails?.toolsAndTech.split(",").map((toolsAndTech:string,index:number)=>(
+              <Text key={index}>
+                {toolsAndTech}
+              </Text>
+            ))}
           </Box>
-        </Box>
+        </Box>}
       </Box>
     </Box>
   );
