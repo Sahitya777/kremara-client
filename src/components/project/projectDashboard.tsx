@@ -13,7 +13,7 @@ import React, { useEffect, useState } from "react";
 import CreateTaskModal from "../Modals/CreateTaskModal";
 import { useStarknetkitConnectModal } from "starknetkit";
 import { MYCONNECTORS } from "@/pages/_app";
-import { useAccount, useConnect } from "@starknet-react/core";
+import { useAccount, useConnect, useDisconnect } from "@starknet-react/core";
 import { Token, userType } from "@/interfaces/interface";
 import useStakeRequest from "@/Blockchain/hooks/useStake";
 import { toast } from "react-toastify";
@@ -137,6 +137,7 @@ const ProjectDashboard = () => {
   }, [walletBalances[token]?.statusBalanceOf,token]);
   const { address, connector } = useAccount();
   const { connect, connectors } = useConnect();
+  const {disconnectAsync}=useDisconnect()
   const connectWallet = async () => {
     try {
       const result = await starknetkitConnectModal1();
@@ -277,7 +278,23 @@ const ProjectDashboard = () => {
                           For creating tasks you need to stake $500 worth of any
                           given token for security reasons
                         </Text>
-                        <Text>{address}</Text>
+                        <Box display='flex' gap="0.4rem" alignItems="center">
+                          <Text display="flex" alignItems="center" gap='0.2rem' border="1px solid black" borderRadius="6px" padding="8px">
+                            <STRKLogo width={16} height={16}/>
+                            {address.substring(
+                          0,
+                          3
+                        )}...{address.substring(
+                          address.length - 9,
+                          address.length
+                        )}
+                          </Text>
+                          <Button onClick={()=>{
+                            disconnectAsync()
+                          }}>
+                              Disconnect
+                          </Button>
+                        </Box>
                         <Box display="flex" flexDirection="column">
                           <Box display="flex" justifyContent="space-between">
                             <Text>Stake Token</Text>

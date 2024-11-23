@@ -2,7 +2,7 @@ import { Project } from "@/interfaces/interface";
 import { Avatar, Box, Button, Text } from "@chakra-ui/react";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import SignInModal from "../Modals/SignInModal";
 import { useAtom } from "jotai";
 import { userAtom } from "@/store/user.atoms";
@@ -22,8 +22,14 @@ const MarketDashboard = () => {
   ]);
   const router=useRouter()
   const [userData] = useAtom(userAtom);
-  console.log(userData,"data")
   const { data: session } = useSession();
+
+  useEffect(()=>{
+    const fetchProjects=async()=>{
+      
+    }
+    fetchProjects()
+  },[])
 
   return (
     <Box display="flex" padding="32px" gap="2rem" width="100%">

@@ -22,7 +22,7 @@ import axios from "axios";
 import { atom, useAtom } from "jotai";
 import { userAtom } from "@/store/user.atoms";
 const Homedashboard = () => {
-  const projects: Project[] = [
+  const [projects,setProjects]= useState<Project[]>([
     {
       name: "Starkfarm",
       logo: "https://bit.ly/dan-abramov",
@@ -35,7 +35,7 @@ const Homedashboard = () => {
       description:
         "Carmine Options AMM, a platform for buying and selling European style options.",
     },
-  ];
+  ]);
   const [contributors, setcontributors] = useState<Contributor[]>([]);
   const [recentActivity, setrecentActivity] = useState([
     {
@@ -236,14 +236,15 @@ const Homedashboard = () => {
                 <Box
                   display="flex"
                   justifyContent="space-between"
+                  alignItems="center"
                   mt="2rem"
                   key={index}
                 >
                   <Box display="flex" gap="1rem">
                     <Avatar src={project.logo as string} />
                     <Box>
-                      <Text>{project.name}</Text>
-                      <Text>{project.description}</Text>
+                      <Text fontSize="18px" fontWeight="700">{project.name}</Text>
+                      <Text maxW="650px">{project.description}</Text>
                     </Box>
                   </Box>
                   <Box>
