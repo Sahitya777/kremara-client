@@ -150,6 +150,7 @@ const Homedashboard = () => {
             padding="1.5rem"
             borderRadius="10px"
             display="flex"
+            mt="2rem"
             alignItems="center"
             gap="1.5rem"
             justifyContent="center"
@@ -262,7 +263,7 @@ const Homedashboard = () => {
             </Box>
           </Box>
         </Box>
-        <Box width="30%">
+        <Box width="30%" mt="2rem">
           <Text fontSize="24px" mt="-0.5rem">
             Recent Acitivity
           </Text>

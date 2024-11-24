@@ -29,6 +29,9 @@ const Navbar = () => {
       justifyContent="space-between"
       padding="16px 32px"
       bg="brown"
+      width="100%"
+      zIndex="100"
+      position='fixed'
     >
       <Box display="flex" gap="2rem">
         <Box

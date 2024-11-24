@@ -19,6 +19,26 @@ const MarketDashboard = () => {
       logo:'',
       description:'Carmine Options AMM, a platform for buying and selling European style options.'
     },
+    {
+      name:'Starkfarm',
+      logo:'',
+      description:'STRKFarm is a decentralized yield aggregator built on Starknet. It aims to maximize returns for users by automatically reallocating assets across various DeFi protocols.'
+    },
+    {
+      name:'Carmine Options',
+      logo:'',
+      description:'Carmine Options AMM, a platform for buying and selling European style options.'
+    },
+    {
+      name:'Starkfarm',
+      logo:'',
+      description:'STRKFarm is a decentralized yield aggregator built on Starknet. It aims to maximize returns for users by automatically reallocating assets across various DeFi protocols.'
+    },
+    {
+      name:'Carmine Options',
+      logo:'',
+      description:'Carmine Options AMM, a platform for buying and selling European style options.'
+    },
   ]);
   const router=useRouter()
   const [userData] = useAtom(userAtom);
@@ -33,7 +53,7 @@ const MarketDashboard = () => {
 
   return (
     <Box display="flex" padding="32px" gap="2rem" width="100%">
-      <Box bg="grey" display="flex" flexDirection="column"padding="2rem" borderRadius="6px" width="20%" minHeight="500px">
+      <Box bg="grey" display="flex" flexDirection="column"padding="2rem" borderRadius="6px" width="20%" minHeight="500px" mt="4rem" pos="fixed">
         <Box width="100%" display="flex" gap="0.5rem" justifyContent="center" alignItems="center" bg="beige" padding="8px" borderRadius="6px">
             {session && <Text>
                 Create project
@@ -46,7 +66,7 @@ const MarketDashboard = () => {
             </Button>}
         </Box>
       </Box>
-      <Box display="flex" flexDirection="column" gap="1rem" width="80%">
+      <Box display="flex" flexDirection="column" gap="1rem" width="80%" mt="4rem" marginLeft="23%">
         {projects.map((project:Project,index:number) => (
           <Box key={index} bg="grey" padding="2rem" borderRadius="6px" cursor="pointer" onClick={()=>{
             router.push(`/project/${project.name}`)

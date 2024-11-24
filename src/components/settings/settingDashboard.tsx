@@ -26,6 +26,7 @@ import {
 } from "@chakra-ui/react";
 import { useRouter } from "next/router";
 import React, { useRef, useState } from "react";
+import DeleteAccountModal from "../Modals/DeleteAccountModal";
 
 const SettingDashboard = () => {
   const router = useRouter();
@@ -245,7 +246,7 @@ const SettingDashboard = () => {
 
   return (
     <Box display="flex" padding="32px" gap="4rem">
-      <Box bg="grey" height="500px" padding="3rem" borderRadius="6px">
+      <Box bg="grey" height="500px" padding="3rem" mt="4rem" borderRadius="6px">
         Left component
       </Box>
       <Box display="flex" flexDirection="column" gap="1rem" width="100%">
@@ -257,6 +258,7 @@ const SettingDashboard = () => {
             <TabList>
               <Tab>Socials</Tab>
               <Tab>Public Profile</Tab>
+              <Tab>Payment Info</Tab>
             </TabList>
             <TabPanels>
               <TabPanel p="0" m="0" mt="2rem">
@@ -1075,9 +1077,7 @@ const SettingDashboard = () => {
                 >
                   <Text fontSize="24px">Danger Zone</Text>
                   <Text>Only come into this area if you are depressed</Text>
-                  <Button bg="red" mt="1rem">
-                    Delete this Account
-                  </Button>
+                  <DeleteAccountModal buttonText="Delete Account" bg="red"mt="1rem" />
                 </Box>
               </TabPanel>
               <TabPanel p="0" m="0" mt="2rem">

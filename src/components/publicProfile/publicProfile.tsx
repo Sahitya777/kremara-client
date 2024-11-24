@@ -22,13 +22,13 @@ const PublicProfile = () => {
   const randomValues = getRange(200).map((index) => {
     return {
       date: shiftDate(today, -index),
-      count: getRandomInt(1, 3),
+      count: getRandomInt(0, 3),
     };
   });
 
   return (
-    <Box  padding="2rem 6rem" display="flex" flexDirection="column" justifyContent='center' alignItems="center" >
-        <Box width="100%" display="flex" alignItems="center" justifyContent="center" bg="grey" padding="2rem" mt="1rem" gap="1rem" borderRadius='6px'>
+    <Box  padding="2rem 6rem" display="flex" flexDirection="column" justifyContent='center' alignItems="center">
+        <Box width="100%" display="flex" alignItems="center" justifyContent="center" bg="grey" padding="2rem" mt="4rem" gap="1rem" borderRadius='6px'>
                 <Box padding="3rem" bg="beige" borderRadius="6px">
                     1st
                 </Box>
@@ -60,7 +60,7 @@ const PublicProfile = () => {
                     }
                     transformDayElement={(element:any, value) => (
                     <Tooltip
-                        label={`Date: ${value?.date} - Count: ${value?.count}`}
+                        label={`Date: ${value?.date} - Contributions: ${value?.count}`}
                         aria-label="contribution-tooltip"
                         placement="top"
                         hasArrow

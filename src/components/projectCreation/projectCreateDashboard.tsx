@@ -307,8 +307,8 @@ const [suggestionUrl, setSuggestionUrl] = useState("");
   }, [formData.verificationMethod, verificationMailSent,verificationMethodSocialMedialDetails,additionalInfoVerification]);
 
   return (
-    <Container maxW="container.lg" p={4} mt="1rem" width="100%">
-      <Box textAlign="center" mb={6}>
+    <Container maxW="container.lg" p={4}  width="100%">
+      <Box textAlign="center" mb={6} mt="4rem">
         <Box fontSize="2xl" fontWeight="bold">
           Register Your Project
         </Box>
