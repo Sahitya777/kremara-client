@@ -34,10 +34,11 @@ import USDCLogo from "@/assets/icons/usdc";
 import USDTLogo from "@/assets/icons/usdt";
 import { useAtom, useAtomValue } from "jotai";
 import { userAtom } from "@/store/user.atoms";
+import StakeModal from "../Modals/StakeModal";
 
 const ProjectDashboard = () => {
   const router = useRouter();
-  const [projectTasks, setprojectTasks] = useState([1,2,3,4,5,6]);
+  const [projectTasks, setprojectTasks] = useState([]);
   const [userType, setuserType] = useState<userType>("Moderator");
   const userData = useAtomValue<any>(userAtom);
   const [projectDetails, setprojectDetails] = useState<any>({
@@ -46,36 +47,7 @@ const ProjectDashboard = () => {
   const [projectContributors, setprojectContributors] = useState<Contributor[]>([])
   const [tokenSelectedDropdown, settokenSelectedDropdown] =
     useState<Boolean>(false);
-  const coins: Token[] = ["USDT", "USDC"];
 
-  const {
-    token,
-    settoken,
-    tokenAmount,
-    settokenAmount,
-    dataStakeRequest,
-    errorStakeRequest,
-    resetStakeRequest,
-    writeStakeRequest,
-    writeAsyncStakeRequest,
-    isErrorStakeRequest,
-    isIdleStakeRequest,
-    isSuccessStakeRequest,
-    statusStakeRequest,
-  } = useStakeRequest();
-
-  const handleTransaction = async () => {
-    try {
-      const res = await writeAsyncStakeRequest();
-      console.log(res, "res");
-    } catch (error) {
-      toast.error("Transaction Declined", {
-        position: "bottom-right",
-        autoClose: false,
-      });
-      console.log(error, "err in transaction");
-    }
-  };
 
   const getCoin = (CoinName: string) => {
     switch (CoinName) {
@@ -97,66 +69,7 @@ const ProjectDashboard = () => {
   };
 
   const [projectAmountStaked, setprojectAmountStaked] =
-    useState<Boolean>(true);
-  const { starknetkitConnectModal: starknetkitConnectModal1 } =
-    useStarknetkitConnectModal({
-      modalMode: "canAsk",
-      modalTheme: "dark",
-      connectors: MYCONNECTORS,
-    });
-  interface assetB {
-    USDT: any;
-    USDC: any;
-    BTC: any;
-    ETH: any;
-    DAI: any;
-  }
-  const walletBalances: assetB | any = {
-    USDT: useBalanceOf(tokenAddressMap["USDT"]),
-    USDC: useBalanceOf(tokenAddressMap["USDC"]),
-  };
-  const [walletBalance, setwalletBalance] = useState(
-    walletBalances[token]?.statusBalanceOf === "success"
-      ? parseAmount(
-          String(
-            uint256.uint256ToBN(walletBalances[token]?.dataBalanceOf?.balance)
-          ),
-          tokenDecimalsMap[token]
-        )
-      : 0
-  );
-  useEffect(() => {
-    setwalletBalance(
-      walletBalances[token]?.statusBalanceOf === "success"
-        ? parseAmount(
-            String(
-              uint256.uint256ToBN(walletBalances[token]?.dataBalanceOf?.balance)
-            ),
-            tokenDecimalsMap[token]
-          )
-        : 0
-    );
-    ////console.log("supply modal status wallet balance",walletBalances[coin?.name]?.statusBalanceOf)
-  }, [walletBalances[token]?.statusBalanceOf, token]);
-  const { address, connector } = useAccount();
-  const { connect, connectors } = useConnect();
-  const { disconnectAsync } = useDisconnect();
-  const connectWallet = async () => {
-    try {
-      const result = await starknetkitConnectModal1();
-
-      connect({ connector: result.connector });
-    } catch (error) {
-      console.warn("connectWallet error", error);
-      try {
-        const result = await starknetkitConnectModal1();
-        connect({ connector: result.connector });
-      } catch (error) {
-        console.error("connectWallet error", error);
-        alert("Error connecting wallet");
-      }
-    }
-  };
+    useState<Boolean>(false);
 
   useEffect(() => {
     try {
@@ -176,7 +89,7 @@ const ProjectDashboard = () => {
     mt="4rem"
     borderRadius="6px"
     width="15%"
-    minH="400px"
+    minH="500px"
     position="fixed"
     zIndex={1} // Ensures it's above the background
   >
@@ -231,6 +144,55 @@ const ProjectDashboard = () => {
     </Box>
 
     {/* Tasks */}
+    {projectTasks.length === 0 && (
+          <Box bg="grey" padding="2rem" borderRadius="6px" minH="250px">
+            <Text fontSize="24px">Tasks</Text>
+            <Text>One liner for dessc</Text>
+            {userType === "Normal" ? (
+              <Box
+                display="flex"
+                justifyContent="center"
+                alignItems="center"
+                mt="3rem"
+              >
+                No active tasks found
+              </Box>
+            ) : (
+              <Box
+                display="flex"
+                justifyContent="center"
+                alignItems="center"
+                mt="1rem"
+              >
+                {projectAmountStaked ? (
+                  <CreateTaskModal buttonText="Create Task" />
+                ) : (
+                  <Box
+                    display="flex"
+                    flexDirection="column"
+                    justifyContent="center"
+                    gap="1rem"
+                  >
+                      <Box
+                        display="flex"
+                        flexDirection="column"
+                        gap="1rem"
+                        justifyContent="center"
+                        alignItems="center"
+                      >
+                        <Text>
+                          For creating tasks you need to stake $500 worth of any
+                          given token for security reasons
+                        </Text>
+                        <StakeModal buttonText="Stake Amount"/>
+                      </Box>
+                    
+                  </Box>
+                )}
+              </Box>
+            )}
+          </Box>
+        )}
     {projectTasks.map((projectTask, index) => (
       <Box
         bg="grey"

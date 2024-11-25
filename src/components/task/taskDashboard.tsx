@@ -31,7 +31,7 @@ const TaskDetailPage = () => {
   const [isApproved, setIsApproved] = useState(false); // Mock approval status
   const [addDiscussionClicked, setaddDiscussionClicked] = useState(false);
   const [userData, setuserData] = useState<any>();
-  const [userType, setuserType] = useState<userType>("Normal");
+  const [userType, setuserType] = useState<userType>("Moderator");
   const router = useRouter();
   const [sortByRank, setSortByRank] = useState(false);
   const rankingOrder: Record<tiers, number> = {

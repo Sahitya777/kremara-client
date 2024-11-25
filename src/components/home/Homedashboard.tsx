@@ -264,7 +264,51 @@ const Homedashboard = () => {
           </Box>
         </Box>
         <Box width="30%" mt="2rem">
-          <Text fontSize="24px" mt="-0.5rem">
+          <Text fontSize="24px">
+            Top Contributors
+          </Text>
+          <Box
+            bg="grey"
+            // mt="1rem"
+            padding="1.5rem"
+            borderRadius="6px"
+            height="360px" // Same fixed height as the first box
+            display="flex"
+            flexDirection="column"
+          >
+            <Text>Top Contributors</Text>
+            <Box height="100%" overflowY="auto" mt="1rem">
+              <Table variant="simple" size="sm">
+                <Thead>
+                  <Tr>
+                    <Th>Contributor</Th>
+                    <Th>Contributions</Th>
+                    <Th>Rewards</Th>
+                  </Tr>
+                </Thead>
+                <Tbody>
+                  {/* Example table data */}
+                  {Array(100)
+                    .fill(0)
+                    .map((_, index) => (
+                      <Tr
+                        key={index}
+                        cursor="pointer"
+                        _hover={{ background: "blue" }}
+                        onClick={() => {
+                          router.push(`/profile/${index + 1}`);
+                        }}
+                      >
+                        <Td>Name {index + 1} </Td>
+                        <Td>{index * 2}</Td>
+                        <Td>{index + 2}</Td>
+                      </Tr>
+                    ))}
+                </Tbody>
+              </Table>
+            </Box>
+          </Box>
+          <Text fontSize="24px" mt="1rem">
             Recent Acitivity
           </Text>
           <Box
@@ -273,7 +317,8 @@ const Homedashboard = () => {
             borderRadius="6px"
             fontSize="20px"
             overflow="hidden"
-            maxH="250px"
+            minH="310px"
+            // maxH="250px"
             boxShadow="xl"
             position="relative"
           >
@@ -310,50 +355,6 @@ const Homedashboard = () => {
                 </Box>
               ))}
               {/* Add more Text elements as needed */}
-            </Box>
-          </Box>
-          <Text fontSize="24px" mt="1rem">
-            Top Contributors
-          </Text>
-          <Box
-            bg="grey"
-            // mt="1rem"
-            padding="1.5rem"
-            borderRadius="6px"
-            height="400px" // Same fixed height as the first box
-            display="flex"
-            flexDirection="column"
-          >
-            <Text>Top Contributors</Text>
-            <Box height="100%" overflowY="auto" mt="1rem">
-              <Table variant="simple" size="sm">
-                <Thead>
-                  <Tr>
-                    <Th>Contributor</Th>
-                    <Th>Total Contributions</Th>
-                    <Th>Rewards</Th>
-                  </Tr>
-                </Thead>
-                <Tbody>
-                  {/* Example table data */}
-                  {Array(100)
-                    .fill(0)
-                    .map((_, index) => (
-                      <Tr
-                        key={index}
-                        cursor="pointer"
-                        _hover={{ background: "blue" }}
-                        onClick={() => {
-                          router.push(`/profile/${index + 1}`);
-                        }}
-                      >
-                        <Td>Name {index + 1} </Td>
-                        <Td>{index * 2}</Td>
-                        <Td>{index + 2}</Td>
-                      </Tr>
-                    ))}
-                </Tbody>
-              </Table>
             </Box>
           </Box>
         </Box>
